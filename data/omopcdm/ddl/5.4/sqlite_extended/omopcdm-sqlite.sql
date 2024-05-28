@@ -1,5 +1,5 @@
 -- Generated with update-ddl.sh and "sqlite3 cdm.db .schema > omopcdm-sqlite.sql"
--- https://github.com/barabo/fhir-to-omop-demo/blob/main/data/omopcdm/ddl/5.4/sqlite_extended/
+-- https://github.com/barabo/fhir-to-omop-demo/blob/main/data/omopcdm/ddl/5.4/sqlite_extended#readme
 CREATE TABLE person (
 			person_id integer NOT NULL PRIMARY KEY,
 			gender_concept_id integer NOT NULL REFERENCES CONCEPT (CONCEPT_ID),
