@@ -7,15 +7,19 @@ set -e
 set -o pipefail
 set -u
 
-# Make sure the DB exists.
-#
-# If you don't have one already, you need to generate one using the DDL
-# provided by OMOP.
-#
-# See the /data/omopcdm folder in this repo to find the script.
-#
+# The OMOPCDM database we're loading terminology into.
 DB="cdm.db"
-[ -e "${DB}" ] || exit 1
+
+
+# If there's no cdm.db here, create an empty one.
+if [ ! -e "${DB}" ]; then
+  echo "Creating an initial ${DB} file from DDL..."
+  cd ../omopcdm/*/*/* &>/dev/null
+  ./update-ddl.sh
+  cd - &>/dev/null
+  cp ../omopcdm/*/*/*/cdm.db "${DB}"
+  echo
+fi
 
 
 ##
@@ -121,7 +125,6 @@ reset_db
 
 # Load all Athena vocab files in increasing size order.
 for csv in ` ls -Sr *.csv `; do
-  [[ ${csv} =~ backup* ]] && echo "...skipping ${csv}" && continue
   [[ ${csv} =~ CONCEPT_CPT4.* ]] && echo "...skipping ${csv}" && continue
   load ${csv}
 done
