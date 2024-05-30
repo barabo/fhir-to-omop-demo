@@ -48,7 +48,7 @@ function reset_db() {
   done
 
   # Keep a copy of the empty.db for future runs.
-  [ -e empty.db ] || cp "${DB}" empty.db
+  [ -e empty.db ] || cp "${DB}" empty.db && sqlite3 empty.db 'vacuum;'
 }
 
 
@@ -126,13 +126,13 @@ for csv in ` ls -Sr *.csv `; do
   load ${csv}
 done
 
-# Done!
-echo "COMPLETED: $(( $( date +%s ) - start )) seconds"
-
 # Optional sanity checks.
-if [[ -n ${DEBUG} ]]; then
-  echo "DEBUG: running fk sanity checks post-load..."
+if [ -z ${DEBUG+on} ]; then
+  echo "DEBUG: running foreign_key_check on ${DB}..."
   echo
   echo "Press Ctrl-C to abort at any time."
   sql "pragma foreign_key_check"
 fi
+
+# Done!
+echo "COMPLETED: $(( $( date +%s ) - start )) seconds"
