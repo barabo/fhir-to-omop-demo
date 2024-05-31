@@ -8,7 +8,8 @@ set -o pipefail
 set -u
 
 # Create a local folder for the H2 database that will be used by HAPI.
-H2="./h2"
+THIS_DIR="$( dirname ${0} )"
+H2="${THIS_DIR}/h2"
 mkdir -p "${H2}"
 
 # This is where the local folder will appear inside the container.
