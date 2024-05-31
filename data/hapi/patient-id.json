@@ -1,0 +1,36 @@
+{
+    "resourceType": "Patient",
+    "id": "3",
+    "name": [
+        {
+            "use": "official",
+            "given": ["Adam"],
+            "family": "John"
+        }
+    ],
+
+    "gender": "male",
+    "birthDate": "1989-01-01",
+    "telecom": [
+        {
+            "value": "9511199632",
+            "use": "mobile",
+            "system": "phone"
+        },{
+            "value": "adam@xyz.com",
+            "system": "email"
+
+        }
+    ],
+
+    "address": [
+        {
+            "line": [
+                "32/1110 C1 Heaven House"
+            ],
+            "city": "XYZ",
+            "state": "ABC",
+            "postalCode": "960000"
+        }
+    ]
+}

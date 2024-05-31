@@ -8,7 +8,7 @@ set -o pipefail
 set -u
 
 # Create a local folder for the H2 database that will be used by HAPI.
-THIS_DIR="$( dirname ${0} )"
+THIS_DIR="$( realpath $( dirname ${0} ) )"
 H2="${THIS_DIR}/h2"
 mkdir -p "${H2}"
 
@@ -21,9 +21,9 @@ NAME="fhir-to-omop-demo-hapi-server"
 # Launch the server, saving resources to the local DB.
 function start_server() {
   docker run \
+    --detach \
     --interactive \
     --tty \
-    --detach \
     --name ${NAME} \
     --publish 8080:8080 \
     --mount "type=bind,src=${H2},target=${MOUNT_TARGET}" \
