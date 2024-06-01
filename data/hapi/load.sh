@@ -7,32 +7,54 @@ set -e
 set -o pipefail
 set -u
 
-# Number of concurrent file loaders.
-CONCURRENCY=6
-export FHIR_BASE="http://localhost:8080/fhir"
-
 # Allow the script to be invoked from other directories and still work.
 THIS_DIR="$( dirname ${0} )"
 
-# Make sure an argument has been given.
-if (( $# == 0 )); then
+function usage() {
+  local message="${@}"
   cat <<EOM
-Usage: $( basename ${0} ) dir-name[s]
+Usage: $( basename ${0} ) config-etl.json
 
-Loads FHIR bundles from a directory into: ${FHIR_BASE}.
+Loads FHIR bundles from files a into a FHIR server.
 
-Up to ${CONCURRENCY} parallel uploads happen at once.
+${message}
 EOM
   exit 1
-fi
+}
 
-# Make sure the arguments are all directories.
-for x in "${@}"; do
-  [ ! -d ${x} ] && echo "Not a directory: ${x}" && exit 1
-done
+
+# Check the arguments.
+(( $# == 0 )) && usage "See ${THIS_DIR}/README.md for configuration options."
+ETL_CONFIG="${1}"
+[ -e "${ETL_CONFIG}" ] || usage "File not found: ${ETL_CONFIG}"
+
+
+##
+# Get a config item from the etl config file.
+#
+function etl() {
+  local query="${1}"
+  cat "${ETL_CONFIG}" | jq --raw-output .${query}
+}
+
+
+##
+# Gets batch config from the ETL file.
+#
+function get_batches() {
+  cat "${ETL_CONFIG}" \
+    | jq -c '.load_groups[] | .concurrency, .file_name_regex, .files, .folder' \
+    | xargs -n4
+}
+
+
+# The base server where data is loaded to.
+export FHIR_BASE="$( etl fhir_base )"
+
 
 # Make sure the server is started already.
 ${THIS_DIR}/start.sh >/dev/null
+# TODO: this could be a config item .start_script
 
 
 ##
@@ -43,7 +65,7 @@ function summarize() {
   grep '"status"' "${filename}".log \
     | sort \
     | uniq -c \
-    | sed -e 's|[ ]*"status": "| - status: |;s:..$::' \
+    | sed -e 's|[ ]*"status": .| - status: |;s:..$::' \
     | \
   while read status; do
     echo "FILE: ${filename}: ${status}"
@@ -57,12 +79,12 @@ function summarize() {
 function load() {
 
   # Remove single quotes from the filename, if present.
-  local file_folder="$( dirname "${1}" )"
-  local filename="$( basename "${1}" )"
-  filename="${file_folder}/${filename//'/_}"
+  local file_folder="$( dirname ${1} )"
+  local filename="$( basename ${1} )"
+  filename="${file_folder}/${filename//\'/_}"
   if [[ ${1} != ${filename} ]]; then
     echo "Renaming: ${1} to remove single quotes in filename..."
-    mv -v "${1}" "${file_folder}/${filename}"
+    mv -v "${1}" "${filename}"
   fi
 
   # Load the file.
@@ -85,21 +107,44 @@ function load() {
 # Load files in parallel, maintaining no more than CONCURRENCY simultaneous uploads.
 #
 function load_files_matching() {
-  local dir="${1}"
-  local pattern="${2}"
+  local concurrency="${1}"
+  local file_name_regex="${2}"
+  local folder="${3}"
+
+  # Export the functions needed by the loader.
   export -f load
   export -f summarize
-  find ${dir} -maxdepth 1 -mindepth 1 -type f -name "${pattern}" -print0 \
-    | xargs -0 -n1 -P${CONCURRENCY} bash -c 'load "${@}"' "_"
+
+  # Load files matching a regex in parallel.
+  find "${folder}" \
+    -maxdepth 1 \
+    -mindepth 1 \
+    -type f \
+    -name "${file_name_regex}" \
+    -print0 \
+    | xargs -0 -n1 -P${concurrency} bash -c 'load "${@}"' _
 }
 
 
-for dir in ${@}; do
-  # Synthea usually places organization and practionioner files into separate
-  # bundle files that start with lowercase letters.  We want to load these
-  # first.
-  load_files_matching ${dir} 'organization*.json'
-  load_files_matching ${dir} 'practitioner*.json'
-  # Load patient files next.
-  load_files_matching ${dir} '[^a-z]*.json'
+# Load the load groups in batches.
+batch=-1
+get_batches | \
+while read concurrency file_name_regex files folder; do
+  # Keep track of which batch this is so we can access the batch .files.
+  (( batch++ ))
+
+  # Load files matching a regex.
+  if [[ $files == null ]]; then
+    load_files_matching ${concurrency} "${file_name_regex}" "${folder}"
+    continue
+  fi
+
+  # Load named files.
+  etl "load_groups[${batch}].files[]" | \
+  while read filename; do
+    if (( concurrency != 1 )); then
+      echo "WARN: Loading named files with concurrency > 1 not yet supported!"
+    fi
+    load_files_matching 1 "${filename}" "${folder}"
+  done
 done
