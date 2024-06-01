@@ -29,6 +29,15 @@ function start_server() {
     --mount "type=bind,src=${H2},target=${MOUNT_TARGET}" \
     --env "spring.datasource.url=jdbc:h2:file:${MOUNT_TARGET}/h2" \
     hapiproject/hapi:latest
+
+# TODO: experiment with these
+#    --env "hapi.fhir.bulk_export_enabled=true" \
+#    --env "hapi.fhir.bulk_import_enabled=true" \
+#    --env "hapi.fhir.allow_cascading_deletes=false" \
+#    --env "hapi.fhir.allow_multiple_delete=false" \
+#    --env "hapi.fhir.delete_expunge_enabled=false" \
+#    --env "hapi.fhir.enforce_referential_integrity_on_delete=false" \
+#    --env "hapi.fhir.enforce_referential_integrity_on_write=false" \
 }
 
 
