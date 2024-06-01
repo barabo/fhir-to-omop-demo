@@ -93,14 +93,13 @@ FILE: ../coherent/fhir/Humberto482_Koss676_9d1ba492-68e6-c66f-78eb-1b8a2b2cd7f2.
 FILE: ../coherent/fhir/Robbi844_Beatty507_1a6ea64c-4451-34e2-f13a-04e9b3f197fa.json: 812 - status: 201 Created
 FILE: ../coherent/fhir/Timmy68_Lakin515_75425ac1-ff8b-76eb-5b4b-633b619c87c3.json: 387 - status: 201 Created
 FILE: ../coherent/fhir/Ambrose149_Leffler128_14e3b2af-8bdc-2bb0-57a8-e2f2ca142d41.json: 1117 - status: 201 Created
-FILE: ../coherent/fhir/Earnest658_Stamm704_05cd91dc-80fc-7e98-ad89-6d3f5d141ee9.json: 114 - status: 201 Created
-FILE: ../coherent/fhir/Floyd420_Mann644_aee205cf-57bc-a73a-0820-52aa481986c6.json: 1718 - status: 201 Created
-FILE: ../coherent/fhir/Mallory926_Medhurst46_44185bdd-4277-d54c-de1f-2ce4fadddc11.json: 871 - status: 201 Created
-FILE: ../coherent/fhir/Bruno518_Legros616_f5067689-4b86-2bc3-554b-f720c0690b75.json: 827 - status: 201 Created
-FILE: ../coherent/fhir/Louie190_Weber641_837e80f6-a7a5-77f8-36aa-c7b8ff002c4b.json: 1413 - status: 201 Created
-FILE: ../coherent/fhir/Amelia635_Lehner980_38e5b9a8-6f05-2fb5-b7cc-f02f9fc43ec9.json: 1128 - status: 201 Created
 ...
-
+FILE: ../coherent/fhir/Garret233_Abernathy524_f10ad800-30f8-e856-31e3-b46dd5833d10.json: 7320 - status: 201 Created
+FILE: ../coherent/fhir/Jewell855_Ullrich385_590d04c9-6ff9-d791-b9a4-23a83a9e25ba.json: 574 - status: 201 Created
+FILE: ../coherent/fhir/Virgilio529_Wehner319_7359f186-9e25-5799-0065-09c284efce8a.json: 622 - status: 201 Created
+FILE: ../coherent/fhir/Kaley842_Witting912_72bf3e42-0938-4339-8117-00429e98f93e.json: 8471 - status: 201 Created
+FILE: ../coherent/fhir/Samuel331_Ortega866_80f28bab-c204-0a96-ea17-ab2b383fa9c2.json: 24674 - status: 201 Created
+./load.sh ./coherent-etl.json  32.01s user 43.42s system 3% cpu 40:39.25 total
 ```
 
 ## Troubleshooting
