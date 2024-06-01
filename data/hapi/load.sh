@@ -148,3 +148,9 @@ while read concurrency file_name_regex files folder; do
     load_files_matching 1 "${filename}" "${folder}"
   done
 done
+
+# Restart the server to trim the H2 DB.
+echo "Restarting server to trim database."
+${THIS_DIR}/stop.sh
+${THIS_DIR}/start.sh
+echo "DONE!"
