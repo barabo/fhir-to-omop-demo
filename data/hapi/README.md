@@ -9,6 +9,7 @@ loaded data into `$REPO/data/hapi/h2`.
 
 - [ ] You must have Docker installed and running on your system.
 - [ ] The loader script requires `jq` to be installed.
+- [ ] The bulk exporter script uses `zstd` to compress exports.
 
 # Operations
 
@@ -111,6 +112,49 @@ FILE: ../coherent/fhir/Samuel331_Ortega866_80f28bab-c204-0a96-ea17-ab2b383fa9c2.
 ./load.sh ./coherent-etl.json  32.01s user 43.42s system 3% cpu 40:39.25 total
 ```
 
+## Export
+
+An experimental bulk exporter script has been provided.  It can export the
+whole [coherent] data set in about 3 minutes with the provided configuration.
+
+```
+(base) carl@home hapi % time ./export.sh
+
+EXPORT: 0ae6d078-50e1-4990-a5dd-9a1b277e59ae: waiting for http://localhost:8080/fhir to prepare export.
+EXPORT: Monitoring: 'http://localhost:8080/fhir/$export-poll-status?_jobId=0ae6d078-50e1-4990-a5dd-9a1b277e59ae' for updates...
+EXPORT: 0ae6d078-50e1-4990-a5dd-9a1b277e59ae: ready for download!
+Downloading files...
+Compressing files with zstd...
+/*stdin*\            :  2.86%   (  2.67 GiB =>   78.1 MiB, 0ae6d078-50e1-4990-a5dd-9a1b277e59ae.tar.zst)
+Created: ./bulk-exports/full/0ae6d078-50e1-4990-a5dd-9a1b277e59ae.tar.zst
+Export completed: in 169 seconds.
+./export.sh  22.84s user 48.68s system 42% cpu 2:49.53 total
+
+(base) carl@home hapi %
+```
+
+The bulk import and export stardard uses newline delimited json (or, `.ndjson`)
+files, which are faster to read and write.
+
+The way it works in HAPI, a request is first made to create an export.  The
+server responds with a URL that can be monitored for readiness.  The script
+monitors this URL until the export is ready for download, then it downloads
+all the files into a directory rooted in `bulk-exports`.
+
+After downloading all the files, they are compressed with the `zstd` command
+line utility.
+
+### Extraction
+
+To extract an archive, you must first use the `unzstd` command to inflate it,
+then `tar` to extract the contents.
+
+```bash
+unzstd 0ae6d078-50e1-4990-a5dd-9a1b277e59ae.tar.zst
+tar -xzf 0ae6d078-50e1-4990-a5dd-9a1b277e59ae.tar && rm $_
+```
+
+The resulting exported resources
 # Troubleshooting
 
 ## Starting the server
