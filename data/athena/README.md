@@ -1,32 +1,60 @@
 # Introduction
-This directory is where I load terminology into an empty OMOPCDM database, which I generate using a script: `/data/omopcdm/ddl/5.4/sqlite_extended/update-ddl.sh`.
+
+This directory is where I load terminology data into an empty OMOPCDM
+database, which I generate using a script:
+`/data/omopcdm/ddl/5.4/sqlite_extended/update-ddl.sh`.
 
 ## Athena
-You have to request terminology data sets from Athena before you can load any real data into the CDM.
+Terminology data sets can be requested from the Athena website, and must
+be loaded into the OMOPCDM database before you can load any real data
+into the CDM.
 
 TODO: document that process.
 
-Once you have downloaded terminology sets from the Athena website, you can unzip them and place the provided `*.csv` files here.
+Once you have downloaded terminology sets from the Athena website, you
+can unzip them and place the provided `*.csv` files here.
 
-NOTE: if you have requested CPT4 codes, you will have to sign up for an API key and run the provided `cpt.sh` script to download them using their provided tool.  The download takes 2 - 3 hours to complete, so give yourself time!
+NOTE: if you have requested CPT4 codes, you will have to sign up for an
+API key and run the provided `cpt.sh` script to download the additional
+codes using the provided `jar` tool, which is bundled in the download.
+When you run the `cpt.sh` script, the download of codes takes 2 - 3 hours
+to complete, so give yourself ample time for this step!
 
 ```sh
-# From this directory:
-cp ~/Downloads/vocabulary_download_v5_*/*.csv .
+# Run this command within this directory to copy terminology files here:
+
+cp -v ~/Downloads/vocabulary_download_v5_*/*.csv .
+
+~/Downloads/vocabulary_download_v5_*/CONCEPT.csv -> ./CONCEPT.csv
+~/Downloads/vocabulary_download_v5_*/CONCEPT_ANCESTOR.csv -> ./CONCEPT_ANCESTOR.csv
+~/Downloads/vocabulary_download_v5_*/CONCEPT_CLASS.csv -> ./CONCEPT_CLASS.csv
+~/Downloads/vocabulary_download_v5_*/CONCEPT_CPT4.csv -> ./CONCEPT_CPT4.csv
+~/Downloads/vocabulary_download_v5_*/CONCEPT_RELATIONSHIP.csv -> ./CONCEPT_RELATIONSHIP.csv
+~/Downloads/vocabulary_download_v5_*/CONCEPT_SYNONYM.csv -> ./CONCEPT_SYNONYM.csv
+~/Downloads/vocabulary_download_v5_*/DOMAIN.csv -> ./DOMAIN.csv
+~/Downloads/vocabulary_download_v5_*/DRUG_STRENGTH.csv -> ./DRUG_STRENGTH.csv
+~/Downloads/vocabulary_download_v5_*/RELATIONSHIP.csv -> ./RELATIONSHIP.csv
+~/Downloads/vocabulary_download_v5_*/VOCABULARY.csv -> ./VOCABULARY.csv
 ```
 
 ## Setup
-You can then run the `load.sh` script and it will create a new empty DB for you by first transforming the OMOPCDM DDL files into a schema that sqlite can read, then using that to create an empty database.
+When the terminology files have been copied into this directory, you can
+then run the `load.sh` script and it will create a new empty DB by first
+transforming the OMOPCDM DDL files into a schema that sqlite can read,
+and then using that schema to create an empty database.
 
-The empty database will be copied here, and the script will then load the csv data into it.
+The empty database will be copied into this folder, and the script will
+then load the Athena csv data into it.
 
-The script takes between 3 and 6 minutes to complete on my laptop.
+The script takes between 3 and 6 minutes to complete on my laptop, but
+your time will vary based on the vocabularies you selected and your
+hardware configuration.
 
 ### Example output
 
 ```
 (base) carl@home athena % time ./load.sh
-Creating an initial ${DB} file from DDL...
+Creating an initial cdm.db file from DDL...
 Adding PRIMARY KEYS to DDL
 Adding FOREIGN KEYS to DDL
 Creating empty cdm.db database
