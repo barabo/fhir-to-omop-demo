@@ -26,11 +26,12 @@ To stop the server, run this.
 ```
 
 ## Load
-To load data into the server, provide a directory containing FHIR resource
-bundles to load.
+To load data into the server, you must use an ETL definition file to list
+or detect the files to load, and to instruct the loader how many files can
+be loaded at a time.
 
-The bundles will be loaded concurrently, with up to `${CONCURRENCY}`
-simultaneous uploads.  See deails in `load.sh`.
+The files containing FHIR bundles will be loaded concurrently, with up to
+`${CONCURRENCY}` simultaneous uploads.  See deails in `load.sh`.
 
 NOTE: the loader can not load files with single quotes `'` in the filename,
 and will try to rename those files, replacing the single quote with an
@@ -42,24 +43,30 @@ load group first.
 
 ### ETL definition file
 
-You must define an ETL load definition file to load your bundle objects.
+You must provide an ETL load definition file to load your bundle files with
+the `load.sh` script.
 
-The ETL file supports separate load groups, which run in list order.
+The ETL file supports the definition of separate 'load groups', with each
+load group completing before the next is started.
 
-You can either specify a `files` list of files to load, or a `file_name_regex`
-expression that will match files in a given `folder`.  These are mutually
-exclusive options.
+In the ETL definition file, a load group can either specify a static `files`
+list of files to load, or a `file_name_regex` expression that will match
+files in a given `folder`.  *These are mutually exclusive options.*
 
 All filenames and regex expressions are considered relative to the `folder`
 specified in the load group.
 
-The concurrency definition determines how many bundle files are POST'ed to the
-server at the same time.
+The regex format supported is the one used by the linux `find` command.
+
+The `concurrency` definition determines how many bundle files are POST'ed to
+the server at the same time.  The linux command `xargs` is used to manage
+parallelization of loads.
 
 #### Example ETL definition file
 
-This example file loads the Synthea coherent set of ~1000 patients after first
-loading the `organizations.json` and `practitioners.json` bundles.
+This example ETL definition file instructs the loader to load the Synthea
+'coherent' set of ~1300 patients only after loading the
+`organizations.json` and `practitioners.json` bundle files.
 
 `coherent-etl.json`
 ```
