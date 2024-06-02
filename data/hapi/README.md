@@ -102,7 +102,9 @@ FILE: ../coherent/fhir/Samuel331_Ortega866_80f28bab-c204-0a96-ea17-ab2b383fa9c2.
 ./load.sh ./coherent-etl.json  32.01s user 43.42s system 3% cpu 40:39.25 total
 ```
 
-## Troubleshooting
+# Troubleshooting
+
+## Starting the server
 
 If you are unable to start the server because the container name is already in
 use, the server may have crashed.  You can attempt to restart it by running:
@@ -111,3 +113,55 @@ use, the server may have crashed.  You can attempt to restart it by running:
 docker container prune -f
 ./start.sh
 ```
+
+## Loading data
+
+Lots can go wrong when you load data.  Some things to keep in mind will help.
+
+### Docker
+
+Keep an eye on the docker container stats while it's loading in the Docker Desktop UI.
+
+![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/e17c4d63-e122-4bec-bfc2-f68f64a581e0)
+
+This shows the container usage for a 40 minute load of the Synthea coherent fhir data set.
+
+Restarting the server also tends to reduce the H2 database size on shutdown.  If you are having disk space issues, you might try breaking up the loads into separate ETL jobs, and restart the server between them.
+
+### FHIR Server
+
+The default run options in the Docker image for the hapi fhir server include the ability to delete resources, the indexing of vocabularies, and referential integrity checking after writes and deletes.  These options slow insert performance, so they have been disabled in the `start.sh` script.  You can change this script to re-enable deletes after the data has been fully loaded by changing the `ALLOW_DELETES` env variable to `true`.
+
+```bash
+function start_server() {
+  docker run \
+    --detach \
+    --interactive \
+    --tty \
+    --name ${NAME} \
+    --publish 8080:8080 \
+    --mount "type=bind,src=${H2},target=${MOUNT_TARGET}" \
+    --env "hapi.fhir.allow_cascading_deletes=${ALLOW_DELETES}" \
+    --env "hapi.fhir.allow_multiple_delete=${ALLOW_DELETES}" \
+    --env "hapi.fhir.bulk_export_enabled=true" \
+    --env "hapi.fhir.bulk_import_enabled=true" \
+    --env "hapi.fhir.delete_expunge_enabled=${ALLOW_DELETES}" \
+    --env "hapi.fhir.enforce_referential_integrity_on_delete=${ALLOW_DELETES}" \
+    --env "hapi.fhir.enforce_referential_integrity_on_write=${ALLOW_DELETES}" \
+    --env "spring.datasource.hikari.maximum-pool-size=800" \
+    --env "spring.datasource.max-active=8" \
+    --env "spring.datasource.url=jdbc:h2:file:${MOUNT_TARGET}/h2" \
+    --env "spring.jpa.properties.hibernate.search.enabled=${ALLOW_DELETES}" \
+    hapiproject/hapi:latest
+}
+```
+
+You can also make changes to check or not check referential integrity after inserts, or change the thread pool sizes.
+
+### Database
+
+The backing H2 database is stored locally in a folder `${REPO}/data/hapi/h2` which is bind-mounted to the running container in the `start.sh` script.  In this folder are `h2.mv.db` (the database) and occasionally a `h2.trace.db` (traceback) file.  The traceback file is a text file containing stack traces from a DB crash.  You may discover clues as to why the database failed in this file (such as hints that memory or disk space was exhausted).
+
+### Data issues
+
+Synthea often separates resource files that must be loaded into a server before the others.  Some examples of these are `practitioners.json` and `organizations.json`.  You can specify a separate, ordered load group to run before the other resource bundles are loaded.
