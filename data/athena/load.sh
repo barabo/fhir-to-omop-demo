@@ -1,7 +1,9 @@
 #!/bin/bash
 #
-# Loads Athena terminology data into an empty omopcdm sqlite DB.
+# Loads Athena terminology data into an empty OMOPCDM sqlite DB.
 #
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="/data/athena/load.sh"
 
 set -e
 set -o pipefail
@@ -9,15 +11,15 @@ set -u
 
 # The OMOPCDM database we're loading terminology into.
 DB="cdm.db"
+DDL_DIR="../omopcdm/ddl/5.4/sqlite_extended"
 
-
-# If there's no cdm.db here, create an empty one.
+# If there's no cdm.db yet, create an empty one.
 if [ ! -e "${DB}" ]; then
   echo "Creating an initial ${DB} file from DDL..."
-  cd ../omopcdm/*/*/* &>/dev/null
+  cd "${DDL_DIR}" &>/dev/null
   ./update-ddl.sh
   cd - &>/dev/null
-  cp ../omopcdm/*/*/*/cdm.db "${DB}"
+  cp "${DDL_DIR}/cdm.db" "${DB}"
   echo
 fi
 
