@@ -11,9 +11,9 @@ into the CDM.
 
 ### Select Vocabularies
 
-Log in to the terminology selector page: [here](https://athena.ohdsi.org/vocabulary/list)
+Log in to the terminology download page: [here](https://athena.ohdsi.org/vocabulary/list)
 
-These were the selections I made for this demo.
+These were the selections I made for this demo:
 
 ![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/9a2a83e6-d0ec-48bc-aa4c-4e38ee45a582)
 
