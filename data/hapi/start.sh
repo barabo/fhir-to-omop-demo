@@ -2,6 +2,8 @@
 #
 # Start a local HAPI FHIR server.
 #
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="/data/hapi/start.sh"
 
 set -e
 set -o pipefail
