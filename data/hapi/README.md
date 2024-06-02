@@ -1,3 +1,5 @@
+[coherent]: https://www.mdpi.com/2079-9292/11/8/1199
+
 # Notes
 
 In this folder you can start a local HAPI FHIR server, which will persist
@@ -65,7 +67,7 @@ parallelization of loads.
 #### Example ETL definition file
 
 This example ETL definition file instructs the loader to load the Synthea
-'coherent' set of ~1300 patients only after loading the
+[coherent] set of ~1300 patients only after loading the
 `organizations.json` and `practitioners.json` bundle files.
 
 `coherent-etl.json`
@@ -131,7 +133,7 @@ Keep an eye on the docker container stats while it's loading in the Docker Deskt
 
 ![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/e17c4d63-e122-4bec-bfc2-f68f64a581e0)
 
-This shows the container usage for a 40 minute load of the Synthea coherent fhir data set.
+This shows the container usage for a 40 minute load of the Synthea [coherent] fhir data set.
 
 Restarting the server also tends to reduce the H2 database size on shutdown.  If you are having disk space issues, you might try breaking up the loads into separate ETL jobs, and restart the server between them.
 
