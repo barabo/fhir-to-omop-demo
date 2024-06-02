@@ -9,7 +9,19 @@ Terminology data sets can be requested from the Athena website, and must
 be loaded into the OMOPCDM database before you can load any real data
 into the CDM.
 
-TODO: document that process.
+### Select Vocabularies
+
+Log in to the terminology selector page: [here](https://athena.ohdsi.org/vocabulary/list)
+
+These were the selections I made for this demo.
+
+![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/9a2a83e6-d0ec-48bc-aa4c-4e38ee45a582)
+
+![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/f85d73a6-e4f0-4fb3-8359-44a733c73ee3)
+
+Click the 'Download Vocabularies' button and wait for an email with a
+download link in it.  It may take an hour or more for this step, so be
+patient!
 
 Once you have downloaded terminology sets from the Athena website, you
 can unzip them and place the provided `*.csv` files here.
