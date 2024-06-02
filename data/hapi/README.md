@@ -34,7 +34,8 @@ or detect the files to load, and to instruct the loader how many files can
 be loaded at a time.
 
 The files containing FHIR bundles will be loaded concurrently, with up to
-`${CONCURRENCY}` simultaneous uploads.  See deails in `load.sh`.
+`${CONCURRENCY}` simultaneous uploads.  This is specified in each of the
+load groups defined in the loader ETL definition file (see next section).
 
 NOTE: the loader can not load files with single quotes `'` in the filename,
 and will try to rename those files, replacing the single quote with an
