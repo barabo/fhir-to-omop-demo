@@ -2,6 +2,8 @@
 #
 # Loads data into a running hapi fhir server.
 #
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="/data/hapi/load.sh"
 
 set -e
 set -o pipefail
