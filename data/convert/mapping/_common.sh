@@ -16,6 +16,16 @@ OMOP_TYPE="$( sed -e 's:^[0-9]*-[^-]*-\(.*\).sh$:\1:' <<< ${THIS_SCRIPT} )"
 
 
 ##
+# Reset the destination OMOPCDM tsv file.
+#
+function begin_conversion() {
+  mkdir -p "${DST_OMOP_DIR}"
+  touch "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
+  truncate -s 0 "$_"
+}
+
+
+##
 # Iterates over all the resources being loaded and applies a mapping to each.
 #
 function simple_map() {
@@ -27,10 +37,9 @@ function simple_map() {
   while read ndjson; do
 
     echo -n . 1>&2
-    cat "${ndjson}" | \
     while read resource; do
       jq -r ".|[${mapping}]|@tsv" <<< "${resource}"
-    done
+    done < "${ndjson}"
 
   done \
   >> "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
