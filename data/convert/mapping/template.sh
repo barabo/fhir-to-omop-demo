@@ -77,25 +77,27 @@ function get_script_template() {
 #
 # Converts FHIR ${FHIR} resources to OMOPCDM ${OMOP} records.
 #
+source _common.sh
+
 REPO="${REPO}"
 FILE="$( dirname ${FILE} )/${SCRIPT}"
-
-source _common.sh
 
 simple_map '
 ${divider}
 TEMPLATE
   ow=$(( omop_w - 7 ))
   nw=$(( notes_w - 2 ))
+
+  # Print headings.
   printf "# FHIR %-19s # OMOP %-${ow}s # %-${nw}s #\n" \
     "${FHIR}" "${OMOP}" Notes
-  cat <<TEMPLATE
-${divider}
-TEMPLATE
+  echo ${divider}
+
+  # Print column mappings defaulting to null -> column.
   get_column_names | while read column; do
-    ow=$(( omop_w - 2 ))
-    printf "  %-24s # %-${ow}s #\n" "null," "${column}"
+    printf "  %-24s # %-$(( omop_w - 2 ))s #\n" "null," "${column}"
   done
+
   cat <<TEMPLATE
 ${divider}
 '
