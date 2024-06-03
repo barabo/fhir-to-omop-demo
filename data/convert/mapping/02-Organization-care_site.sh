@@ -5,21 +5,23 @@
 source _common.sh
 
 simple_map '
-# FHIR                # OMOP
-#------------------------#-------------------------------#
-.id,                     # location_id
-.address[0].line[0],     # address_1
-.address[0].line[1],     # address_2
-.address[0].city,        # city
-.address[0].state,       # state
-.address[0].postalCode,  # zip
-null                     # county - not available in FHIR
-.name,                   # location_source_value
-4330442,                 # country_concept_id
-"USA",                   # country_source_value
-.position.latitude,      # latitude
-.position.longitude      # longitude
+# FHIR Organization        # OMOP care_site                 #
+#--------------------------#--------------------------------#
+  .id,                     # location_id
+  .address[0].line[0],     # address_1
+  .address[0].line[1],     # address_2
+  .address[0].city,        # city
+  .address[0].state,       # state
+  .address[0].postalCode,  # zip
+  null                     # county - not available in FHIR
+  .name,                   # location_source_value
+  4330442,                 # country_concept_id
+  "USA",                   # country_source_value
+  .position.latitude,      # latitude
+  .position.longitude      # longitude
 '
+
+# TODO: finalize care_site by inserting into cdm.db
 
 exit 0
 # Everything below is notes.
