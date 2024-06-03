@@ -4,7 +4,7 @@
 #
 source _common.sh
 
-begin_conversion
+begin_conversion  # Truncates the care_site.tsv file.
 
 simple_map '
 # FHIR Location         # OMOP care_site                #
@@ -27,21 +27,23 @@ exit 0
 # Everything below is notes.
 
 cat <<COMMENT >/dev/null
-# OMOP
+# OMOP CDM 5.4
 CREATE TABLE location (
-                        location_id integer NOT NULL PRIMARY KEY,
-                        address_1 TEXT NULL,
-                        address_2 TEXT NULL,
-                        city TEXT NULL,
-                        state TEXT NULL,
-                        zip TEXT NULL,
-                        county TEXT NULL,
-                        location_source_value TEXT NULL,
-                        country_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID),
-                        country_source_value TEXT NULL,
-                        latitude REAL NULL,
-                        longitude REAL NULL );
-# FHIR
+  location_id integer NOT NULL PRIMARY KEY,
+  address_1 TEXT NULL,
+  address_2 TEXT NULL,
+  city TEXT NULL,
+  state TEXT NULL,
+  zip TEXT NULL,
+  county TEXT NULL,
+  location_source_value TEXT NULL,
+  country_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID),
+  country_source_value TEXT NULL,
+  latitude REAL NULL,
+  longitude REAL NULL
+);
+
+# FHIR 4
 {
   "resourceType": "Location",
   "id": "2002",

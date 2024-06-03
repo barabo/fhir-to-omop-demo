@@ -26,22 +26,24 @@ simple_map '
 exit 0
 # Everything below is notes.
 
-cat <<EOF >/dev/null
-# OMOP
+cat <<COMMENT >/dev/null
+# OMOP CDM 5.4
 CREATE TABLE location (
-                        location_id integer NOT NULL PRIMARY KEY,
-                        address_1 TEXT NULL,
-                        address_2 TEXT NULL,
-                        city TEXT NULL,
-                        state TEXT NULL,
-                        zip TEXT NULL,
-                        county TEXT NULL,
-                        location_source_value TEXT NULL,
-                        country_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID),
-                        country_source_value TEXT NULL,
-                        latitude REAL NULL,
-                        longitude REAL NULL );
-# FHIR
+  location_id integer NOT NULL PRIMARY KEY,
+  address_1 TEXT NULL,
+  address_2 TEXT NULL,
+  city TEXT NULL,
+  state TEXT NULL,
+  zip TEXT NULL,
+  county TEXT NULL,
+  location_source_value TEXT NULL,
+  country_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID),
+  country_source_value TEXT NULL,
+  latitude REAL NULL,
+  longitude REAL NULL
+);
+
+# FHIR 4
 {
   "resourceType": "Organization",
   "id": "2001",
@@ -75,4 +77,4 @@ CREATE TABLE location (
     }
   ]
 }
-EOF
+COMMENT
