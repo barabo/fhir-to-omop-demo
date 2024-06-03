@@ -1,0 +1,6 @@
+*.zip
+csv/*
+dna/*
+dicom/*
+fhir/*
+

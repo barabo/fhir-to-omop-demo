@@ -1,3 +1,5 @@
 h2/*
 *.db
+backups
+bulk-exports
 *.db.zst
