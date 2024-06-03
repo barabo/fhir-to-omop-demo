@@ -1,15 +1,31 @@
 #!/bin/bash
 #
-# To be sourced by other scripts in this directory.
+# This file is to be sourced by other scripts in this directory.
+#
+# Each script should begin with the following lines:
+#
+#   #!/bin/bash
+#   #
+#   # Converts FHIR XXX resources to OMOPCDM YYY records.
+#   #
+#   source _common.sh
 #
 
+#
+# Require safety features for all converter scripts.
+#
 set -e
 set -o pipefail
 set -u
 
+# TODO: expect these to be exported from the caller
 SRC_FHIR_DIR="../fhir/export"
 DST_OMOP_DIR="../omop"
+OMOP_CDM_DB="TODO"  # The cdm.db being built by the converter.
 
+#
+# Variables that are used by the scripts that source this file.
+#
 THIS_SCRIPT="$( basename ${0} )"
 FHIR_TYPE="$( cut -d- -f2 <<< ${THIS_SCRIPT} )"
 OMOP_TYPE="$( sed -e 's:^[0-9]*-[^-]*-\(.*\).sh$:\1:' <<< ${THIS_SCRIPT} )"
@@ -45,15 +61,4 @@ function simple_map() {
   >> "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
 
   echo 1>&2
-}
-
-
-function log() {
-  echo "${THIS_SCRIPT}: ${@}"
-}
-
-
-function fatal() {
-  log "FATAL: ${@}"
-  exit 1
 }
