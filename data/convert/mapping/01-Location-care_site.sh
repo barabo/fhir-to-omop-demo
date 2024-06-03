@@ -4,6 +4,8 @@
 #
 source _common.sh
 
+begin_conversion
+
 simple_map '
 # FHIR                # OMOP
 #---------------------|-------------------------------
