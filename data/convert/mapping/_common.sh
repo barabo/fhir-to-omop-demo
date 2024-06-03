@@ -49,16 +49,21 @@ function simple_map() {
 
   echo "Mapping FHIR ${FHIR_TYPE} resources to ${OMOP_TYPE} records..."
 
-  find "${SRC_FHIR_DIR}/" -name "${FHIR_TYPE}_*.ndjson" | \
   while read ndjson; do
 
+    # Display a progress indicator for each .ndjson file processed.
     echo -n . 1>&2
+
+    # For each newline-delimited JSON resource in the .ndjson file...
     while read resource; do
+
+      # Apply the simple mappings to each resource, producing tsv output.
       jq -r ".|[${mapping}]|@tsv" <<< "${resource}"
+
     done < "${ndjson}"
 
-  done \
-  >> "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
+  done < <( find "${SRC_FHIR_DIR}/" -name "${FHIR_TYPE}_*.ndjson" ) \
+    >> "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
 
   echo 1>&2
 }

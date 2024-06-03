@@ -15,7 +15,7 @@ source _common.sh
 This `_common.sh` file contains logic to deduce which type of FHIR resource is
 being converted to which type of OMOPCDM data.
 
-The filename format is: `%02d-${FHIR_TYPE}-${OMOP_TYPE}.sh`
+The filename format is: `%03d-${FHIR_TYPE}-${OMOP_TYPE}.sh`
 
 For simple mappings that can be done using `jq` directly from FHIR resource
 attributes to destination OMOPCDM columns, these scripts can use the
