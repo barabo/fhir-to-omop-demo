@@ -1,0 +1,2 @@
+export/*.ndjson
+*.tar.zst
