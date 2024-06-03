@@ -12,7 +12,7 @@
 #
 
 #
-# Require safety features for all converter scripts.
+# Enable safety features for all mapping scripts that source this file.
 #
 set -e
 set -o pipefail
