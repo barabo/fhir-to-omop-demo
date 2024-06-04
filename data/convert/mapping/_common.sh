@@ -11,11 +11,13 @@
 #   source _common.sh
 #
 # Because this file is _sourced_ from other scripts, all these functions are
-# loaded into the context of the caller, using the environment defined there.
+# loaded into the context of the caller, using the environments defined there.
 #
 # TODO
 #   * do a smoke test in simple_map to ensure that the mapping works for 1 record, 5 records, 100 records, etc
 #   * allow _some_ failed mappings to not halt the entire process
+#   * prevent mapping scripts from manual invocation without a flag?
+#   * allow for a dry-run mode that doesn't write to the destination file?
 #
 
 #
