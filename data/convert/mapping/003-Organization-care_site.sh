@@ -35,7 +35,7 @@ CREATE TABLE care_site (
   place_of_service_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID),
   location_id integer NULL REFERENCES LOCATION (LOCATION_ID),
   care_site_source_value TEXT NULL,
-  place_of_service_source_value TEXT NULL 
+  place_of_service_source_value TEXT NULL
 );
 
 # FHIR R4 Example Organization Resource
