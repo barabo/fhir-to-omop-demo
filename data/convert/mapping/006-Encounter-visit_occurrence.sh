@@ -8,17 +8,17 @@ REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/006-Encounter-visit_occurrence.sh"
 
 simple_map '
-#--------------------------#-------------------------------#---------------------#
-# FHIR Encounter           # OMOP visit_occurrence         # Notes               #
-#--------------------------#-------------------------------#---------------------#
-  null,                    # visit_occurrence_id           # REQUIRED            #
-  null,                    # person_id                     # REQUIRED            #
-  null,                    # visit_concept_id              # REQUIRED            #
-  null,                    # visit_start_date              # REQUIRED            #
+#--------------------------#-------------------------------#-----------------#
+# FHIR Encounter           # OMOP visit_occurrence         # Notes           #
+#--------------------------#-------------------------------#-----------------#
+  null,                    # visit_occurrence_id           # REQUIRED        #
+  null,                    # person_id                     # REQUIRED        #
+  null,                    # visit_concept_id              # REQUIRED        #
+  null,                    # visit_start_date              # REQUIRED        #
   null,                    # visit_start_datetime          #
-  null,                    # visit_end_date                # REQUIRED            #
+  null,                    # visit_end_date                # REQUIRED        #
   null,                    # visit_end_datetime            #
-  null,                    # visit_type_concept_id         # REQUIRED            #
+  null,                    # visit_type_concept_id         # REQUIRED        #
   null,                    # provider_id                   #
   null,                    # care_site_id                  #
   null,                    # visit_source_value            #
@@ -28,7 +28,7 @@ simple_map '
   null,                    # discharged_to_concept_id      #
   null,                    # discharged_to_source_value    #
   null,                    # preceding_visit_occurrence_id #
-#--------------------------#-------------------------------#---------------------#
+#--------------------------#-------------------------------#-----------------#
 '
 
 exit 0

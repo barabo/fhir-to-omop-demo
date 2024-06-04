@@ -5,20 +5,20 @@
 source _common.sh
 
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="data/convert/mapping/006-Condition-condition_occurrence.sh"
+FILE="data/convert/mapping/007-Condition-condition_occurrence.sh"
 
 simple_map '
-#--------------------------#-------------------------------#---------------------#
-# FHIR Condition           # OMOP condition_occurrence     # Notes               #
-#--------------------------#-------------------------------#---------------------#
-  null,                    # condition_occurrence_id       # REQUIRED            #
-  null,                    # person_id                     # REQUIRED            #
-  null,                    # condition_concept_id          # REQUIRED            #
-  null,                    # condition_start_date          # REQUIRED            #
+#--------------------------#-------------------------------#-----------------#
+# FHIR Condition           # OMOP condition_occurrence     # Notes           #
+#--------------------------#-------------------------------#-----------------#
+  null,                    # condition_occurrence_id       # REQUIRED        #
+  null,                    # person_id                     # REQUIRED        #
+  null,                    # condition_concept_id          # REQUIRED        #
+  null,                    # condition_start_date          # REQUIRED        #
   null,                    # condition_start_datetime      #
   null,                    # condition_end_date            #
   null,                    # condition_end_datetime        #
-  null,                    # condition_type_concept_id     # REQUIRED            #
+  null,                    # condition_type_concept_id     # REQUIRED        #
   null,                    # condition_status_concept_id   #
   null,                    # stop_reason                   #
   null,                    # provider_id                   #
@@ -27,7 +27,7 @@ simple_map '
   null,                    # condition_source_value        #
   null,                    # condition_source_concept_id   #
   null,                    # condition_status_source_value #
-#--------------------------#-------------------------------#---------------------#
+#--------------------------#-------------------------------#-----------------#
 '
 
 exit 0

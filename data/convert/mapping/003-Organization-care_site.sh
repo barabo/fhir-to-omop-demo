@@ -8,16 +8,16 @@ REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/003-Organization-care_site.sh"
 
 simple_map '
-#--------------------------#-------------------------------#---------------------#
-# FHIR Organization        # OMOP care_site                # Notes               #
-#--------------------------#-------------------------------#---------------------#
-  .id,                     # care_site_id                  # REQUIRED            #
+#--------------------------#-------------------------------#-----------------#
+# FHIR Organization        # OMOP care_site                # Notes           #
+#--------------------------#-------------------------------#-----------------#
+  .id,                     # care_site_id                  # REQUIRED        #
   .name,                   # care_site_name                #
   null,                    # place_of_service_concept_id   # TODO: map this
   null,                    # location_id                   #
   null,                    # care_site_source_value        #
   null,                    # place_of_service_source_value #
-#--------------------------#-------------------------------#---------------------#
+#--------------------------#-------------------------------#-----------------#
 '
 
 exit 0

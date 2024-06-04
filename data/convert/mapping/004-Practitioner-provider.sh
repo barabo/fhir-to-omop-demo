@@ -5,13 +5,13 @@
 source _common.sh
 
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="data/convert/mapping/005-Practitioner-provider.sh"
+FILE="data/convert/mapping/004-Practitioner-provider.sh"
 
 simple_map '
-#--------------------------#-----------------------------#-----------------------#
-# FHIR Practitioner        # OMOP provider               # Notes                 #
-#--------------------------#-----------------------------#-----------------------#
-  null,                    # provider_id                 # REQUIRED              #
+#--------------------------#-----------------------------#-------------------#
+# FHIR Practitioner        # OMOP provider               # Notes             #
+#--------------------------#-----------------------------#-------------------#
+  null,                    # provider_id                 # REQUIRED          #
   null,                    # provider_name               #
   null,                    # npi                         #
   null,                    # dea                         #
@@ -24,7 +24,7 @@ simple_map '
   null,                    # specialty_source_concept_id #
   null,                    # gender_source_value         #
   null,                    # gender_source_concept_id    #
-#--------------------------#-----------------------------#-----------------------#
+#--------------------------#-----------------------------#-------------------#
 '
 
 exit 0

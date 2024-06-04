@@ -8,16 +8,16 @@ REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/009-DiagnosticReport-measurement.sh"
 
 simple_map '
-#--------------------------#-------------------------------#---------------------#
-# FHIR DiagnosticReport    # OMOP measurement              # Notes               #
-#--------------------------#-------------------------------#---------------------#
-  null,                    # measurement_id                # REQUIRED            #
-  null,                    # person_id                     # REQUIRED            #
-  null,                    # measurement_concept_id        # REQUIRED            #
-  null,                    # measurement_date              # REQUIRED            #
+#--------------------------#-------------------------------#-----------------#
+# FHIR DiagnosticReport    # OMOP measurement              # Notes           #
+#--------------------------#-------------------------------#-----------------#
+  null,                    # measurement_id                # REQUIRED        #
+  null,                    # person_id                     # REQUIRED        #
+  null,                    # measurement_concept_id        # REQUIRED        #
+  null,                    # measurement_date              # REQUIRED        #
   null,                    # measurement_datetime          #
   null,                    # measurement_time              #
-  null,                    # measurement_type_concept_id   # REQUIRED            #
+  null,                    # measurement_type_concept_id   # REQUIRED        #
   null,                    # operator_concept_id           #
   null,                    # value_as_number               #
   null,                    # value_as_concept_id           #
@@ -34,7 +34,7 @@ simple_map '
   null,                    # value_source_value            #
   null,                    # measurement_event_id          #
   null,                    # meas_event_field_concept_id   #
-#--------------------------#-------------------------------#---------------------#
+#--------------------------#-------------------------------#-----------------#
 '
 
 exit 0

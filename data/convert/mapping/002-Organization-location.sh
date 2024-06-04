@@ -4,6 +4,9 @@
 #
 source _common.sh
 
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="data/convert/mapping/002-Organization-location.sh"
+
 simple_map '
 #--------------------------#-----------------------#-------------------------#
 # FHIR Organization        # OMOP location         # Notes                   #

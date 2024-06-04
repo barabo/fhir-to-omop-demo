@@ -8,26 +8,26 @@ REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/010-DiagnosticReport-note.sh"
 
 simple_map '
-#--------------------------#-----------------------------#-----------------------#
-# FHIR DiagnosticReport    # OMOP note                   # Notes                 #
-#--------------------------#-----------------------------#-----------------------#
-  null,                    # note_id                     # REQUIRED              #
-  null,                    # person_id                   # REQUIRED              #
-  null,                    # note_date                   # REQUIRED              #
+#--------------------------#-----------------------------#-------------------#
+# FHIR DiagnosticReport    # OMOP note                   # Notes             #
+#--------------------------#-----------------------------#-------------------#
+  null,                    # note_id                     # REQUIRED          #
+  null,                    # person_id                   # REQUIRED          #
+  null,                    # note_date                   # REQUIRED          #
   null,                    # note_datetime               # set the time to midnight if not given
-  null,                    # note_type_concept_id        # REQUIRED              #
-  null,                    # note_class_concept_id       # REQUIRED              #
+  null,                    # note_type_concept_id        # REQUIRED          #
+  null,                    # note_class_concept_id       # REQUIRED          #
   null,                    # note_title                  #
-  null,                    # note_text                   # REQUIRED              #
-  null,                    # encoding_concept_id         # REQUIRED              #
-  null,                    # language_concept_id         # REQUIRED              #
+  null,                    # note_text                   # REQUIRED          #
+  null,                    # encoding_concept_id         # REQUIRED          #
+  null,                    # language_concept_id         # REQUIRED          #
   null,                    # provider_id                 #
   null,                    # visit_occurrence_id         #
   null,                    # visit_detail_id             #
   null,                    # note_source_value           #
   null,                    # note_event_id               #
   null,                    # note_event_field_concept_id #
-#--------------------------#-----------------------------#-----------------------#
+#--------------------------#-----------------------------#-------------------#
 '
 
 exit 0
