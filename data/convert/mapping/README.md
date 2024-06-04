@@ -22,21 +22,53 @@ main challenges should be called out in this document, where needed.
 
 ## Caveats
 
-Any notable caveats are called out in the sections below, which are names of OMOPCDM tables.
-
-### `care_site`
-* placeholder
+Any notable caveats are called out in the sections below, which are names of
+OMOPCDM tables that have been mapped.  The order of the sections below should
+roughly follow the order they are mapped by the mapping process.
 
 ### `location`
 * All FHIR [Location] resources in the [coherent] source data set are in the USA, so the name and `concept_id` are set statically.
 
+### `care_site`
+* placeholder
 
-# Notes
+# Scripts
 
-The scripts in this directory are numbered to control the order in which they
-run.
+The process of mapping data from a bulk export file to a loadable TSV file
+happens when scripts in this directory are run.
 
-Each script should begin with a prefix like this:
+The scripts in this directory are named with a numberical prefix, which is
+used to control the order in which they are run.  They should run in
+ascending order, but they are not guaranteed to run sequentially.
+
+## Parallelization
+
+To parallelize the mapping work, groups of scripts that write to common OMOP
+files can be *separated* to run in parallel to other mapping scripts.  All
+parallel groups of scripts must run in ascending order relative to their
+group, but as long as each group writes to different destinations, this is
+allowed.
+
+NOTE: when this setting is disabled, and all scripts will run sequentially.
+
+To illustrate this feature, consider these scripts:
+
+```
+001_Location-location.sh
+002_Practitioner-provider.sh
+003_Organization-location.sh
+```
+
+Scripts `001` and `003` both write to the `location` table, so they must be
+run in ascending order.  However, script `002` does not write to the `location`
+table, so it could be run in parallel while scripts `001` and `003` run in
+sequence.
+
+## Boilerplate
+
+Regarding the content of the scripts, each should have a common header that
+looks like this:
+
 ```bash
 #!/bin/bash
 #
@@ -45,15 +77,25 @@ Each script should begin with a prefix like this:
 source _common.sh
 ```
 
-This `_common.sh` file contains logic to deduce which type of FHIR resource is
-being converted to which type of OMOPCDM data using the script filename.
+### `_common.sh`
 
-The filename format is: `%03d-${FHIR_TYPE}-${OMOP_TYPE}.sh`
+The `_common.sh` file contains logic to deduce which type of FHIR resource is
+being converted and which type of OMOPCDM data it should produce.  This
+information is encoded in the script filename.
 
-For simple one-to-one mappings that can be done using `jq` directly from FHIR
-resource attributes to destination OMOPCDM columns, these scripts can use the
-`simple_map` function to pass in a single-quoted string of comma-separated
-`jq` resource selectors.
+The filename format for all mapper scripts is:
+`%03d-${FHIR_TYPE}-${OMOP_TYPE}.sh`
+
+#### `simple_map`
+
+For simple one-to-one mappings (from FHIR attribute to OMOPCDM table value) -
+a function is provided to stream available FHIR resources from a bulk export
+and feed the individual records through a `jq` based processor.
+
+The only parameter that is required is a single-quoted string of
+comma-separated `jq` attribute selectors.
+
+*NOTE: the comments included in the scripts are ignored.*
 
 ## Example Mapping
 
@@ -77,6 +119,8 @@ simple_map '
 #--------------------------#-----------------------#-----------------------------#
 '
 ```
+
+<details><summary>Click to see example input and outputs of this script...</summary>
 
 ## Example FHIR Location
 
@@ -150,13 +194,14 @@ loaded into the sqlite CDM database.
 2002	777 N ST 6 FL		PITTSFIELD	MA	01201-4147		4330442	USA	42.451840000000004	-73.260685
 ```
 
-The logic in the `_common.sh` code streams the tsv code to
-`${REPO}/data/convert/omop/`.  In the example above, the data would be written
-to a file named `location.tsv`.
+</details>
 
-If multiple scripts are to append to a single file, the default behavior is to
-append to these files.
+The `simple_map` logic streams TSV output to `${REPO}/data/convert/omop/`.
+In the example above, the data would be written to a file named `location.tsv`.
 
-To truncate a `.tsv` file, a mapper script can call the `begin_conversion`
-function.  This should be done by any script that is the first writer to a TSV
-file.
+If *multiple* scripts need to write to a TSV file, the default behavior is to
+*append* to these files as the scripts run.  For this reason, the first mapping
+script to write to a TSV file should *truncate* it before writing.
+
+To truncate a `.tsv` file, a mapper script calls the `begin_conversion`
+function.
