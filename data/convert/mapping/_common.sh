@@ -10,6 +10,9 @@
 #   #
 #   source _common.sh
 #
+# Because this file is _sourced_ from other scripts, all these functions are
+# loaded into the context of the caller, using the environment defined there.
+#
 
 #
 # Enable safety features for all mapping scripts that source this file.
@@ -42,6 +45,14 @@ function begin_conversion() {
 
 
 ##
+# Dump the collected TSV into the cdm.db.
+#
+function end_conversion() {
+  echo "TODO: write ${DST_OMOP_DIR}/${OMOP_TYPE}.tsv to ${OMOP_CDM_DB}"
+}
+
+
+##
 # Iterates over all the resources being loaded and applies a mapping to each.
 #
 function simple_map() {
@@ -54,10 +65,10 @@ function simple_map() {
     # Display a progress indicator for each .ndjson file processed.
     echo -n . 1>&2
 
-    # For each newline-delimited JSON resource in the .ndjson file...
+    # For each JSON resource in the .ndjson file...
     while read resource; do
 
-      # Apply the simple mappings to each resource, producing tsv output.
+      # Apply the jq mappings, emitting tsv.
       jq -r ".|[${mapping}]|@tsv" <<< "${resource}"
 
     done < "${ndjson}"
