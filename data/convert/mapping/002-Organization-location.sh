@@ -1,33 +1,42 @@
 #!/bin/bash
 #
-# Converts FHIR XXX resources to OMOPCDM YYY records.
+# Converts FHIR Organization resources to OMOPCDM location records.
 #
 source _common.sh
 
 simple_map '
-# FHIR Organization        # OMOP care_site                 #
-#--------------------------#--------------------------------#
-  .id,                     # location_id
-  .address[0].line[0],     # address_1
-  .address[0].line[1],     # address_2
-  .address[0].city,        # city
-  .address[0].state,       # state
-  .address[0].postalCode,  # zip
-  null                     # county - not available in FHIR
-  .name,                   # location_source_value
-  4330442,                 # country_concept_id
-  "USA",                   # country_source_value
-  .position.latitude,      # latitude
-  .position.longitude      # longitude
+#--------------------------#-----------------------#-------------------------#
+# FHIR Organization        # OMOP location         # Notes                   #
+#--------------------------#-----------------------#-------------------------#
+  .id,                     # location_id           #
+  .address[0].line[0],     # address_1             #
+  .address[0].line[1],     # address_2             #
+  .address[0].city,        # city                  #
+  .address[0].state,       # state                 #
+  .address[0].postalCode,  # zip                   #
+  null                     # county                # not available in FHIR
+  .name,                   # location_source_value #
+  4330442,                 # country_concept_id    # all coherent data set...
+  "USA",                   # country_source_value  # locations are in the USA
+  null,                    # latitude              # in FHIR Location
+  null                     # longitude             # in FHIR Location
+#--------------------------#-----------------------#-------------------------#
 '
 
-# TODO: finalize care_site by inserting into cdm.db
+end_conversion  # Marks 'location' as complete.
 
 exit 0
-# Everything below is notes.
 
-cat <<COMMENT >/dev/null
-# OMOP CDM 5.4
+cat <<EOF  # Everything below is notes.
+
+# Documentation links:
+https://www.hl7.org/fhir/R4B/Organization.html
+https://ohdsi.github.io/CommonDataModel/cdm54.html#location
+
+# Terminology link:
+https://athena.ohdsi.org/search-terms/terms
+
+# OMOP CDM 5.4 TABLE
 CREATE TABLE location (
   location_id integer NOT NULL PRIMARY KEY,
   address_1 TEXT NULL,
@@ -77,4 +86,4 @@ CREATE TABLE location (
     }
   ]
 }
-COMMENT
+EOF
