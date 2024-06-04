@@ -11,7 +11,7 @@ simple_map '
 #--------------------------#-----------------------------#-------------------#
 # FHIR Practitioner        # OMOP provider               # Notes             #
 #--------------------------#-----------------------------#-------------------#
-  null,                    # provider_id                 # REQUIRED          #
+  .id,                     # provider_id                 # REQUIRED          #
   null,                    # provider_name               #
   null,                    # npi                         #
   null,                    # dea                         #
@@ -19,10 +19,10 @@ simple_map '
   null,                    # care_site_id                #
   null,                    # year_of_birth               #
   null,                    # gender_concept_id           #
-  null,                    # provider_source_value       #
-  null,                    # specialty_source_value      #
-  null,                    # specialty_source_concept_id #
-  null,                    # gender_source_value         #
+  null,                    # provider_source_value       # ${FHIR_BASE_URL}/Practitioner/${.id}
+  null,                    # specialty_source_value      # See PractitionerRole: eg - "General Practice"
+  null,                    # specialty_source_concept_id # See PractitionerRole: eg - 38004459
+  .gender,                 # gender_source_value         #
   null,                    # gender_source_concept_id    #
 #--------------------------#-----------------------------#-------------------#
 '
