@@ -35,9 +35,29 @@ OMOP_TYPE="$( sed -e 's:^[0-9]*-[^-]*-\(.*\).sh$:\1:' <<< ${THIS_SCRIPT} )"
 
 
 ##
+# Perform quick sanity checks before any destructive operations.
+#
+function _sanity_check() {
+  if [[ $( basename "${THIS_SCRIPT}" ) != $( basename "${FILE}" ) ]]; then
+    cat <<EOM && exit 1
+FATAL:
+  The FILE env variable:
+    FILE='${FILE}'
+  does NOT match the name of this script:
+    THIS_SCRIPT='${THIS_SCRIPT}'
+
+Please ensure that ${THIS_SCRIPT} declares FILE correctly!
+EOM
+  fi
+}
+
+
+##
 # Reset the destination OMOPCDM tsv file.
 #
 function begin_conversion() {
+  _sanity_check
+
   mkdir -p "${DST_OMOP_DIR}"
   touch "${DST_OMOP_DIR}/${OMOP_TYPE}.tsv"
   truncate -s 0 "$_"
@@ -48,6 +68,8 @@ function begin_conversion() {
 # Dump the collected TSV into the cdm.db.
 #
 function end_conversion() {
+  _sanity_check
+
   echo "TODO: write ${DST_OMOP_DIR}/${OMOP_TYPE}.tsv to ${OMOP_CDM_DB}"
 }
 
@@ -56,6 +78,8 @@ function end_conversion() {
 # Iterates over all the resources being loaded and applies a mapping to each.
 #
 function simple_map() {
+  _sanity_check
+
   local mapping="${1}"
 
   echo "Mapping FHIR ${FHIR_TYPE} resources to ${OMOP_TYPE} records..."
