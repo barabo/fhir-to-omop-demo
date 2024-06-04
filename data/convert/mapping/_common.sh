@@ -13,6 +13,10 @@
 # Because this file is _sourced_ from other scripts, all these functions are
 # loaded into the context of the caller, using the environment defined there.
 #
+# TODO
+#   * do a smoke test in simple_map to ensure that the mapping works for 1 record, 5 records, 100 records, etc
+#   * allow _some_ failed mappings to not halt the entire process
+#
 
 #
 # Enable safety features for all mapping scripts that source this file.
