@@ -11,14 +11,14 @@ simple_map '
 #--------------------------#-------------------------------#---------------------#
 # FHIR Encounter           # OMOP visit_occurrence         # Notes               #
 #--------------------------#-------------------------------#---------------------#
-  null,                    # visit_occurrence_id           #
-  null,                    # person_id                     #
-  null,                    # visit_concept_id              #
-  null,                    # visit_start_date              #
+  null,                    # visit_occurrence_id           # REQUIRED            #
+  null,                    # person_id                     # REQUIRED            #
+  null,                    # visit_concept_id              # REQUIRED            #
+  null,                    # visit_start_date              # REQUIRED            #
   null,                    # visit_start_datetime          #
-  null,                    # visit_end_date                #
+  null,                    # visit_end_date                # REQUIRED            #
   null,                    # visit_end_datetime            #
-  null,                    # visit_type_concept_id         #
+  null,                    # visit_type_concept_id         # REQUIRED            #
   null,                    # provider_id                   #
   null,                    # care_site_id                  #
   null,                    # visit_source_value            #

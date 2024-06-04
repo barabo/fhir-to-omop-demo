@@ -11,7 +11,7 @@ simple_map '
 #--------------------------#-------------------------------#---------------------#
 # FHIR Organization        # OMOP care_site                # Notes               #
 #--------------------------#-------------------------------#---------------------#
-  .id,                     # care_site_id                  #
+  .id,                     # care_site_id                  # REQUIRED            #
   .name,                   # care_site_name                #
   null,                    # place_of_service_concept_id   # TODO: map this
   null,                    # location_id                   #

@@ -8,7 +8,7 @@ simple_map '
 #--------------------------#-----------------------#-------------------------#
 # FHIR Organization        # OMOP location         # Notes                   #
 #--------------------------#-----------------------#-------------------------#
-  .id,                     # location_id           #
+  .id,                     # location_id           # REQUIRED                #
   .address[0].line[0],     # address_1             #
   .address[0].line[1],     # address_2             #
   .address[0].city,        # city                  #

@@ -11,14 +11,14 @@ simple_map '
 #--------------------------#-----------------------------#-----------------------#
 # FHIR Patient             # OMOP person                 # Notes                 #
 #--------------------------#-----------------------------#-----------------------#
-  null,                    # person_id                   #
-  null,                    # gender_concept_id           #
-  null,                    # year_of_birth               #
+  null,                    # person_id                   # REQUIRED              #
+  null,                    # gender_concept_id           # REQUIRED              #
+  null,                    # year_of_birth               # REQUIRED              #
   null,                    # month_of_birth              #
   null,                    # day_of_birth                #
   null,                    # birth_datetime              #
-  null,                    # race_concept_id             #
-  null,                    # ethnicity_concept_id        #
+  null,                    # race_concept_id             # REQUIRED              #
+  null,                    # ethnicity_concept_id        # REQUIRED              #
   null,                    # location_id                 #
   null,                    # provider_id                 #
   null,                    # care_site_id                #

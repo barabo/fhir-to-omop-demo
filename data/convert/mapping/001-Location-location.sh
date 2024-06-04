@@ -13,7 +13,7 @@ simple_map '
 #--------------------------#-----------------------#-----------------------------#
 # FHIR Location            # OMOP location         # Notes                       #
 #--------------------------#-----------------------#-----------------------------#
-  .id,                     # location_id           #
+  .id,                     # location_id           # REQUIRED                    #
   .address.line[0],        # address_1             #
   .address.line[1],        # address_2             #
   .address.city,           # city                  #

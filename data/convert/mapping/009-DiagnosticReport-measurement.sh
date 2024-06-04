@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# Converts FHIR Observation resources to OMOPCDM measurement records.
+# Converts FHIR DiagnosticReport resources to OMOPCDM measurement records.
 #
 source _common.sh
 
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="data/convert/mapping/008-Observation-measurement.sh"
+FILE="data/convert/mapping/009-DiagnosticReport-measurement.sh"
 
 simple_map '
 #--------------------------#-------------------------------#---------------------#
-# FHIR Observation         # OMOP measurement              # Notes               #
+# FHIR DiagnosticReport    # OMOP measurement              # Notes               #
 #--------------------------#-------------------------------#---------------------#
   null,                    # measurement_id                # REQUIRED            #
   null,                    # person_id                     # REQUIRED            #
@@ -72,18 +72,17 @@ CREATE TABLE measurement (
   meas_event_field_concept_id integer NULL REFERENCES CONCEPT (CONCEPT_ID)
 );
 
-# FHIR R4 Example Observation Resource
-https://www.hl7.org/fhir/R4B/Observation.html
+# FHIR R4 Example DiagnosticReport Resource
+https://www.hl7.org/fhir/R4B/DiagnosticReport.html
 {
-  "resourceType": "Observation",
-  "id": "4237",
+  "resourceType": "DiagnosticReport",
+  "id": "4220",
   "meta": {
     "versionId": "1",
     "lastUpdated": "2024-06-01T20:19:17.304+00:00",
     "source": "#8IRCgpLiSxJLv3VD",
     "profile": [
-      "http://hl7.org/fhir/StructureDefinition/bodyheight",
-      "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
     ]
   },
   "status": "final",
@@ -91,9 +90,14 @@ https://www.hl7.org/fhir/R4B/Observation.html
     {
       "coding": [
         {
-          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-          "code": "vital-signs",
-          "display": "vital-signs"
+          "system": "http://loinc.org",
+          "code": "34117-2",
+          "display": "History and physical note"
+        },
+        {
+          "system": "http://loinc.org",
+          "code": "51847-2",
+          "display": "Evaluation+Plan note"
         }
       ]
     }
@@ -102,26 +106,36 @@ https://www.hl7.org/fhir/R4B/Observation.html
     "coding": [
       {
         "system": "http://loinc.org",
-        "code": "8302-2",
-        "display": "Body Height"
+        "code": "34117-2",
+        "display": "History and physical note"
+      },
+      {
+        "system": "http://loinc.org",
+        "code": "51847-2",
+        "display": "Evaluation+Plan note"
       }
-    ],
-    "text": "Body Height"
+    ]
   },
   "subject": {
     "reference": "Patient/4217"
   },
   "encounter": {
-    "reference": "Encounter/4228"
+    "reference": "Encounter/4218"
   },
-  "effectiveDateTime": "1996-02-18T06:37:53-05:00",
-  "issued": "1996-02-18T06:37:53.630-05:00",
-  "valueQuantity": {
-    "value": 174.1,
-    "unit": "cm",
-    "system": "http://unitsofmeasure.org",
-    "code": "cm"
-  }
+  "effectiveDateTime": "1959-02-22T06:37:53-05:00",
+  "issued": "1959-02-22T06:37:53.630-05:00",
+  "performer": [
+    {
+      "reference": "Practitioner/2187",
+      "display": "Dr. Douglass930 Windler79"
+    }
+  ],
+  "presentedForm": [
+    {
+      "contentType": "text/plain",
+      "data": "CjE5NTktMDItMjIKCiMgQ2hpZWYgQ29tcGxhaW50Ck5vIGNvbXBsYWludHMuCgojIEhpc3Rvcnkgb2YgUHJlc2VudCBJbGxuZXNzCkh1bWJlcnRvNDgyCiBpcyBhIDM1IHllYXItb2xkIG5vbi1oaXNwYW5pYyB3aGl0ZSBtYWxlLgoKIyBTb2NpYWwgSGlzdG9yeQpQYXRpZW50IGlzIG1hcnJpZWQuIFBhdGllbnQgaXMgYW4gYWN0aXZlIHNtb2tlciBhbmQgaXMgYW4gYWxjb2hvbGljLgogUGF0aWVudCBpZGVudGlmaWVzIGFzIGhldGVyb3NleHVhbC4KClBhdGllbnQgY29tZXMgZnJvbSBhIGhpZ2ggc29jaW9lY29ub21pYyBiYWNrZ3JvdW5kLgogUGF0aWVudCBoYXMgY29tcGxldGVkIHNvbWUgY29sbGVnZSBjb3Vyc2VzLgpQYXRpZW50IGN1cnJlbnRseSBoYXMgSHVtYW5hLgoKIyBBbGxlcmdpZXMKTm8gS25vd24gQWxsZXJnaWVzLgoKIyBNZWRpY2F0aW9ucwpObyBBY3RpdmUgTWVkaWNhdGlvbnMuCgojIEFzc2Vzc21lbnQgYW5kIFBsYW4KUGF0aWVudCBpcyBwcmVzZW50aW5nIHdpdGggYm9keSBtYXNzIGluZGV4IDMwKyAtIG9iZXNpdHkgKGZpbmRpbmcpLiAKCiMjIFBsYW4KCg=="
+    }
+  ]
 }
 
 NOTES

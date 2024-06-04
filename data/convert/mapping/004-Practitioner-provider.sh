@@ -11,7 +11,7 @@ simple_map '
 #--------------------------#-----------------------------#-----------------------#
 # FHIR Practitioner        # OMOP provider               # Notes                 #
 #--------------------------#-----------------------------#-----------------------#
-  null,                    # provider_id                 #
+  null,                    # provider_id                 # REQUIRED              #
   null,                    # provider_name               #
   null,                    # npi                         #
   null,                    # dea                         #
