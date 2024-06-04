@@ -1,33 +1,42 @@
 #!/bin/bash
 #
-# Converts FHIR Location resources to OMOPCDM care_site records.
+# Converts FHIR Location resources to OMOPCDM location records.
 #
 source _common.sh
+
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="data/convert/mapping/001-Location-location.sh"
 
 begin_conversion  # Truncates the care_site.tsv file.
 
 simple_map '
-# FHIR Location         # OMOP care_site                #
-#-----------------------#-------------------------------#
-  .id,                  # location_id
-  .address.line[0],     # address_1
-  .address.line[1],     # address_2
-  .address.city,        # city
-  .address.state,       # state
-  .address.postalCode,  # zip
-  null                  # county - not available in FHIR
-  .name,                # location_source_value
-  4330442,              # country_concept_id
-  "USA",                # country_source_value
-  .position.latitude,   # latitude
-  .position.longitude   # longitude
+#--------------------------#-----------------------#-----------------------------#
+# FHIR Location            # OMOP location         # Notes                       #
+#--------------------------#-----------------------#-----------------------------#
+  .id,                     # location_id           #
+  .address.line[0],        # address_1             #
+  .address.line[1],        # address_2             #
+  .address.city,           # city                  #
+  .address.state,          # state                 #
+  .address.postalCode,     # zip                   #
+  null                     # county                # not available in FHIR
+  .name,                   # location_source_value #
+  4330442,                 # country_concept_id    # all coherent data set...
+  "USA",                   # country_source_value  # locations are in the USA
+  .position.latitude,      # latitude              #
+  .position.longitude      # longitude             #
+#--------------------------#-----------------------#-----------------------------#
 '
 
 exit 0
-# Everything below is notes.
 
-cat <<COMMENT >/dev/null
-# OMOP CDM 5.4
+cat <<NOTES  # Everything below is notes.
+
+# Terminology search:
+https://athena.ohdsi.org/search-terms/terms
+
+# OMOP CDM 5.4 location TABLE
+https://ohdsi.github.io/CommonDataModel/cdm54.html#location
 CREATE TABLE location (
   location_id integer NOT NULL PRIMARY KEY,
   address_1 TEXT NULL,
@@ -43,7 +52,8 @@ CREATE TABLE location (
   longitude REAL NULL
 );
 
-# FHIR 4
+# FHIR R4 Example Location Resource
+https://www.hl7.org/fhir/R4B/Location.html
 {
   "resourceType": "Location",
   "id": "2002",
@@ -83,5 +93,5 @@ CREATE TABLE location (
     "display": "BERKSHIRE FACULTY SERVICES INC"
   }
 }
-COMMENT
 
+NOTES
