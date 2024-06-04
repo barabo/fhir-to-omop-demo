@@ -16,7 +16,8 @@
 # TODO
 #   * design a way to map code.concept.system to concept_id
 #     * can a bash function be invoked from simple_map on a path expression result?
-#   * rename 'simple_map' to 'jq_path_to_tsv'
+#   * rename 'simple_map' to 'fhir_path_to_tsv'
+#     * update README.md to reflect this change
 #   * do a smoke test in simple_map to ensure that the mapping works for 1 record, 5 records, 100 records, etc
 #   * allow _some_ failed mappings to not halt the entire process
 #   * log capture
