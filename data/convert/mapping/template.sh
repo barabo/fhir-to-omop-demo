@@ -4,6 +4,10 @@
 #
 # Usage: template.sh <fhir-resource-name> <omop-table-name>
 #
+# TODO:
+#   * Mark required mappings in the Note column.
+#   * generate schema.sql from the cdm.db.
+#
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/template.sh"
 
@@ -95,7 +99,9 @@ TEMPLATE
 
   # Print column mappings defaulting to null -> column.
   get_column_names | while read column; do
-    printf "  %-24s # %-$(( omop_w - 2 ))s #\n" "null," "${column}"
+    local required=""  # TODO: Mark required mappings with 'REQUIRED'.
+    printf "  %-24s # %-$(( omop_w - 2 ))s # %s\n" \
+      "null," "${column}" "${required}"
   done
 
   cat <<TEMPLATE
