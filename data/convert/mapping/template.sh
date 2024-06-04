@@ -74,7 +74,7 @@ function dashes() {
 function get_script_template() {
   local columns=$( get_column_names )
   local omop_w=$(( $( get_column_names | wc -L ) + 2 ))
-  local notes_w=$(( 80 - 26 - omop_w - 2 ))
+  local notes_w=$(( 80 - 26 - omop_w - 6 ))
   local divider="#$( dashes 26 )#$( dashes ${omop_w} )#$( dashes ${notes_w} )#"
   cat <<TEMPLATE
 #!/bin/bash
@@ -100,7 +100,7 @@ TEMPLATE
   # Print column mappings defaulting to null -> column.
   get_column_names | while read column; do
     local required=""  # TODO: Mark required mappings with 'REQUIRED'.
-    printf "  %-24s # %-$(( omop_w - 2 ))s # %s\n" \
+    printf "  %-24s # %-$(( omop_w - 2 ))s # %-s\n" \
       "null," "${column}" "${required}"
   done
 
