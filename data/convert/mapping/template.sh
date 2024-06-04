@@ -5,8 +5,13 @@
 # Usage: template.sh <fhir-resource-name> <omop-table-name>
 #
 # TODO:
-#   * Mark required mappings in the Note column.
-#   * generate schema.sql from the cdm.db.
+#   * sanity check - make sure fhir export (and resource type) is available
+#   * sanity check - make sure omop table is in schema.sql
+#   * Mark any required mappings in the Note column using schema.sql.
+#   * support flags for --sqlite cdm.db and --schema schema.sql
+#   * generate schema.sql from the cdm.db on --sqlite cdm.db
+#   * design a better, non-table format for path expression lists.
+#     * i.e. commented list of jq path expressions with optional shell function co-processors
 #
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="data/convert/mapping/template.sh"

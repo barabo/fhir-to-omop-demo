@@ -14,10 +14,14 @@
 # loaded into the context of the caller, using the environments defined there.
 #
 # TODO
+#   * design a way to map code.concept.system to concept_id
+#     * can a bash function be invoked from simple_map on a path expression result?
+#   * rename 'simple_map' to 'jq_path_to_tsv'
 #   * do a smoke test in simple_map to ensure that the mapping works for 1 record, 5 records, 100 records, etc
 #   * allow _some_ failed mappings to not halt the entire process
-#   * prevent mapping scripts from manual invocation without a flag?
-#   * allow for a dry-run mode that doesn't write to the destination file?
+#   * log capture
+#   * observability?
+#   * prevent mapping scripts from manual invocation without an injected flag?
 #
 
 #
