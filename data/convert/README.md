@@ -8,9 +8,9 @@ The OMOPCDM tables do not usually have a one-to-one mapping with FHIR
 resources.
 
 To illustrate this, the FHIR resources provided in the coherent data set
-were scanned to extract each of the `"code"` and `"system"` pairs from each
-resource type.  These values were then joined to the `concept` terminology
-table to get the assocated `domain_id`.
+were scanned to extract each of the `"code"` from each resource type.
+These values were then joined to the `concept` terminology table to get the
+assocated `domain_id`.
 
 For example, the following codable concept was found in a FHIR resource.
 
@@ -22,8 +22,12 @@ For example, the following codable concept was found in a FHIR resource.
 }
 ```
 
-The `code` value `185349003` and `system` value `http://snomed.info/sct`
-were used to find matching records in the `concept` terminology database.
+The `code` value `185349003` was used to find matching records in the
+`concept` terminology database.  This resulted in the following match.
+
+| `concept_id` | `concept_name` | `domain_id` | `vocabulary_id` | `concept_class_id` | `standard_concept` | `concept_code` | `valid_start_date` | `valid_end_date` | `invalid_reason` |
+| ---------- | ---------------------- | ----------- | ------------- | ---------------- | ---------------- | ------------ | ---------------- | -------------- | -------------- |
+| 4085799    | Encounter for check up | Observation | SNOMED        | Procedure        | S                | 185349003    | 20020131         | 20991231       |                |
 
 While the `domain_id` values do not directly map to OMOPCDM tables, the
 OMOPCDM tables are more closely related to the `domain_id` than the FHIR
