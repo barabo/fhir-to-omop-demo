@@ -26,11 +26,8 @@ patient!
 Once you have downloaded terminology sets from the Athena website, you
 can unzip them and place the provided `*.csv` files here.
 
-NOTE: if you have requested CPT4 codes, you will have to sign up for an
-API key and run the provided `cpt.sh` script to download the additional
-codes using the provided `jar` tool, which is bundled in the download.
-When you run the `cpt.sh` script, the download of codes takes 2 - 3 hours
-to complete, so give yourself ample time for this step!
+NOTE: CPT4 codes are not required for this demo, even though they were
+captured in the screenshots above.
 
 ```sh
 # Run this command within this directory to copy terminology files here:
