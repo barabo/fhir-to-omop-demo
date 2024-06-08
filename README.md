@@ -1,7 +1,45 @@
 # fhir-to-omop-demo
-A demo to convert synthea FHIR data to OMOP
+A demo to convert synthea FHIR data to OMOP!
 
-#### Citations
+## Background
+This demo was prepared in advance of the 2024 FHIR DevDays in Minneapolis.
+
+Many researchers and developers will have access to either FHIR or OMOP, but
+not necessarily both.  And for those with access to both, these two systems
+may not be sourced with the same data.
+
+At Mayo Clinic we have made great use of OMOPCDM data for AI applications,
+but our conversion solution is not easy to share since it relies on cloud
+services for the source data, conversion process, and destination.
+
+## Demo Goals
+This demo was written to serve the FHIR and OMOP communities by providing an
+easy way to create a FHIR server loaded with non-trivial data, demonstrate
+one approach for conversion of FHIR resources into OMOPCDM records, and to
+encourage further exploration of this conversion process.
+
+## Instructions
+To get started, clone this repo and the `barabo/fhir-jq` repo.
+```
+mkdir ~/demo && cd $_
+gh repo clone barabo/fhir-to-omop-demo
+gh repo clone barabo/fhir-jq
+```
+
+Each of the directories in this repo contain instructions and notes, but you
+should understand the basic flow of instructions before you begin.
+
+You will:
+- [ ] Download the MITRE Coherent data set and extract it into `coherent`
+- [ ] Download terminology data from Athena and place it into `athena`
+- [ ] Load the terminology into an empty OMOPCDM database by running the script provided in `omopcdm`
+- [ ] Load the Coherent FHIR resources into a local hapi server by running the scripts in `hapi`
+- [ ] Bulk Export the data from hapi, placing the ndjson files into `convert/fhir/export`
+- [ ] Install `jq` and configure it to use the module provided in `../fhir-jq/module`
+- [ ] Convert FHIR-to-OMOP by running the script in `convert`
+- [ ] Load the converted OMOPCDM data by running the script in `load`
+
+## Citations
 
 This demo uses the MITRE Health Coherent data set, and should be cited according to their wishes.  Thank you, MITRE Health!
 
