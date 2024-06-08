@@ -1,4 +1,4 @@
-# Introduction
+# Notes
 
 This directory is where I load terminology data into an empty OMOPCDM
 database, which I generate using a script:
