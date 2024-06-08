@@ -33,9 +33,8 @@ resource types atr.
 
 ### Resource Type to `domain_id`
 
-+--------------------------+--------------------+---------------------+
 |   `fhir_resource_type`   |    `domain_id`     | `total_concept_codes` |
-+--------------------------+--------------------+---------------------+
+| ------------------------ | ------------------ | --------------------- |
 | AllergyIntolerance       | Observation        | 106                 |
 | CarePlan                 | Procedure          | 9797                |
 | CarePlan                 | Observation        | 8188                |
@@ -109,13 +108,11 @@ resource types atr.
 | Procedure                | Procedure          | 52172               |
 | Procedure                | Measurement        | 2977                |
 | Procedure                | Observation        | 943                 |
-+--------------------------+--------------------+---------------------+
 
 ### `domain_id` to Resource Type
 
-+--------------------+--------------------------+---------------------+
 |     domain_id      |    fhir_resource_type    | total_concept_codes |
-+--------------------+--------------------------+---------------------+
+| --- | --- | --- |
 | Condition          | Encounter                | 36142               |
 | Condition          | Claim                    | 27462               |
 | Condition          | ExplanationOfBenefit     | 26222               |
@@ -189,7 +186,6 @@ resource types atr.
 | Visit              | Claim                    | 12083               |
 | Visit              | Encounter                | 412                 |
 | Visit              | Patient                  | 260                 |
-+--------------------+--------------------------+---------------------+
 
 </details>
 
