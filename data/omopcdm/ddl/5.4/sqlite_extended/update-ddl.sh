@@ -16,6 +16,9 @@ set -e
 set -o pipefail
 set -u
 
+# Jump into the script directory.
+cd "$( dirname "${0}" )"
+
 # Create ignored, temp sql files for working with.
 DDL=patched-ddl.sql
 FKS=patched-fks.sql
@@ -154,6 +157,10 @@ touch cdm.db
 sqlite3 cdm.db < ${DDL}
 sqlite3 cdm.db < ${IDX}
 sqlite3 cdm.db "pragma foreign_key_check"
+
+# Return an empty DB the directory where this script was called from.
+cd - &>/dev/null
+cp "$( dirname "${0}" )/cdm.db" .
 
 # Success!
 echo "DONE!"
