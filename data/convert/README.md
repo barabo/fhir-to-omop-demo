@@ -33,6 +33,31 @@ resource types atr.
 
 ### Resource Type to `domain_id`
 
+|   `fhir_resource_type`   | `resource_domains` | `total_concept_codes` |
+| ------------------------ | ------------------ | --------------------- |
+| AllergyIntolerance       | 1                | 106                 |
+| CarePlan                 | 4                | 19950               |
+| CareTeam                 | 3                | 33834               |
+| Claim                    | 7                | 462871              |
+| Condition                | 2                | 15956               |
+| Device                   | 1                | 416                 |
+| DiagnosticReport         | 3                | 632990              |
+| DocumentReference        | 1                | 287892              |
+| Encounter                | 4                | 181252              |
+| ExplanationOfBenefit     | 11               | 3593275             |
+| ImagingStudy             | 4                | 10688               |
+| Immunization             | 7                | 37531               |
+| Media                    | 1                | 1072                |
+| Medication               | 2                | 1489                |
+| MedicationAdministration | 2                | 1489                |
+| MedicationRequest        | 3                | 214792              |
+| Observation              | 6                | 1341652             |
+| Patient                  | 7                | 10224               |
+| PractitionerRole         | 1                | 2082                |
+| Procedure                | 3                | 56092               |
+
+<details><summary>Click to see the details...</summary>
+
 |   `fhir_resource_type`   |    `domain_id`     | `total_concept_codes` |
 | ------------------------ | ------------------ | --------------------- |
 | AllergyIntolerance       | Observation        | 106                 |
@@ -109,7 +134,34 @@ resource types atr.
 | Procedure                | Measurement        | 2977                |
 | Procedure                | Observation        | 943                 |
 
+</details>
+
+---
 ### `domain_id` to Resource Type
+
+|    `domain_id`     | `resource_types` | `total_concept_codes` |
+| ------------------ | -------------- | ------------------- |
+| Condition          | 7              | 128833              |
+| Device             | 1              | 416                 |
+| Drug               | 4              | 212029              |
+| Gender             | 1              | 1018                |
+| Geography          | 4              | 7054                |
+| Meas Value         | 1              | 4071                |
+| Measurement        | 9              | 1007711             |
+| Metadata           | 1              | 227895              |
+| Note               | 2              | 863676              |
+| Observation        | 14             | 971219              |
+| Payer              | 3              | 420292              |
+| Procedure          | 9              | 781962              |
+| Provider           | 5              | 464513              |
+| Race               | 1              | 227895              |
+| Revenue Code       | 1              | 1                   |
+| Spec Anatomic Site | 1              | 3752                |
+| Type Concept       | 1              | 1858                |
+| Unit               | 3              | 798558              |
+| Visit              | 5              | 782900              |
+
+<details><summary>Click to see the details...</summary>
 
 |     domain_id      |    fhir_resource_type    | total_concept_codes |
 | --- | --- | --- |
@@ -186,6 +238,10 @@ resource types atr.
 | Visit              | Claim                    | 12083               |
 | Visit              | Encounter                | 412                 |
 | Visit              | Patient                  | 260                 |
+
+</details>
+
+---
 
 </details>
 
