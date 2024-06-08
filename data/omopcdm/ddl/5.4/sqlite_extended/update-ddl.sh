@@ -160,7 +160,7 @@ sqlite3 cdm.db "pragma foreign_key_check"
 
 # Return an empty DB the directory where this script was called from.
 cd - &>/dev/null
-cp "$( dirname "${0}" )/cdm.db" .
+cp -nv "$( dirname "${0}" )/cdm.db" .
 
 # Success!
 echo "DONE!"
