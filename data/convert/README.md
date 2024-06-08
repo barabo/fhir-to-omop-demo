@@ -12,26 +12,51 @@ were scanned to extract each of the `"code"` from each resource type.
 These values were then joined to the `concept` terminology table to get the
 assocated `domain_id`.
 
-For example, the following codable concept was found in a FHIR resource.
+For example, the following codable concept was found in an Encounter FHIR
+resource.
 
 ```js
 {
-  "system": "http://snomed.info/sct",
-  "code": "185349003",
-  "display": "Encounter for check up (procedure)"
-}
+  "resourceType": "Encounter",
+...
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "185349003",
+          "display": "Encounter for check up (procedure)"
+        }
+      ],
+      "text": "Encounter for check up (procedure)"
+    }
+  ],
+...
 ```
 
-The `code` value `185349003` was used to find matching records in the
-`concept` terminology database.  This resulted in the following match.
+The SNOMED code `185349003` was matched to a record in the `concept` table in the terminology database.
 
-| `concept_id` | `concept_name` | `domain_id` | `vocabulary_id` | `concept_class_id` | `standard_concept` | `concept_code` | `valid_start_date` | `valid_end_date` | `invalid_reason` |
-| ---------- | ---------------------- | ----------- | ------------- | ---------------- | ---------------- | ------------ | ---------------- | -------------- | -------------- |
-| 4085799    | Encounter for check up | Observation | SNOMED        | Procedure        | S                | 185349003    | 20020131         | 20991231       |                |
+| `concept` column   | value                  |
+| ------------------ | ---------------------- |
+| `concept_id`       | 4085799                |
+| `concept_name`     | Encounter for check up |
+| `domain_id`        | Observation            |
+| `vocabulary_id`    | SNOMED                 |
+| `concept_class_id` | Procedure              |
+| `standard_concept` | S                      |
+| `concept_code`     | 185349003              |
+| `valid_start_date` | 20020131               |
+| `valid_end_date`   | 20991231               |
+| `invalid_reason`   |                        |
 
-While the `domain_id` values do not directly map to OMOPCDM tables, the
-OMOPCDM tables are more closely related to the `domain_id` than the FHIR
-resource types atr.
+Although this code was used to describe the type of a FHIR Encounter, the
+concept code matches it to the domain of `Observation`, so this record will
+likely contribute to the OMOPCDM `observation`, `measurement`, or 
+`procedure_occurrence` tables (not the `visit_occurrence` table).
+
+So, while the `domain_id` does not directly map to OMOPCDM tables, the
+`domain_id` of a code is a valuable clue for determining where in OMOPCDM
+the FHIR data will be needed.
 
 <details><summary>Click to see the results of this analysis...</summary>
 
