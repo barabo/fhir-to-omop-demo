@@ -4,6 +4,8 @@ To write data into an OMOPCDM database, you must first build a database
 that conforms to the prescribed schema.  This directory contains a snapshot of 
 the DDL which defines that schema for CDM version 5.4 in the sqlite dialect.
 
+![image](https://ohdsi.github.io/CommonDataModel/images/cdm54.png)
+
 ## sqlite
 
 The demo uses sqlite because it is a no-network database with very few
