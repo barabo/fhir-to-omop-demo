@@ -1,5 +1,5 @@
 # fhir-to-omop-demo
-A demo to convert synthea FHIR data to OMOP!
+A demo to translate synthea FHIR data to OMOP!
 
 ## Background
 This demo was prepared in advance of the 2024 FHIR DevDays in Minneapolis.
