@@ -7,15 +7,6 @@ This is the directory where the conversion of FHIR to OMOP takes place.
 The OMOPCDM tables do not usually have a one-to-one mapping with FHIR
 resources.
 
-This might seem a bit counterintuitive, given the wording of the OMOP CDM
-documentation:
-
-> This table contains Events where Persons engage with the healthcare system for a duration of time. They are often also called “Encounters”.
-
-However, if you keep reading their documentation, you will see this:
-
-> Populate this [...] based on the kind of visit that took place for the person. For example this could be "Inpatient Visit", "Outpatient Visit", "Ambulatory Visit", etc. This table will contain standard concepts in the Visit domain.
-
 To illustrate this, the FHIR resources provided in the coherent data set
 were scanned to extract each of the `"code"` from each resource type.
 These values were then joined to the `concept` terminology table to get the
@@ -43,7 +34,21 @@ resource.
 ...
 ```
 
-The SNOMED code `185349003` was matched to a record in the `concept` table in the terminology database.
+Despite the wording for the `visit_occurrence` OMOPCDM table:
+
+> This table contains Events where Persons engage with the healthcare system for a duration of time. They are often also called “Encounters”.
+
+If you keep reading their documentation, you will see this:
+
+> Populate this [...] based on the kind of visit that took place for the person. For example this could be "Inpatient Visit", "Outpatient Visit", "Ambulatory Visit", etc. This table will contain standard concepts in the Visit domain.
+
+In other words, not all "encounters" qualify as entries in the
+`visit_occurrence` table - they must be within the "Visit" domain.  So, when
+looking at a FHIR Encounter resource, we need to know if the particular type
+of encounter code qualifies as a "Visit" in OMOPCDM parlance.
+
+The SNOMED code `185349003` in the example above matches a record in the
+`concept` table in the terminology database.
 
 | `concept` column   | value                  |
 | ------------------ | ---------------------- |
@@ -63,11 +68,12 @@ concept code matches it to the domain of `Observation`, so this record will
 likely contribute to the OMOPCDM `observation`, `measurement`, or 
 `procedure_occurrence` tables (not the `visit_occurrence` table).
 
-So, while the `domain_id` does not directly map to OMOPCDM tables, the
+So, while the `domain_id` does not directly map to individual OMOPCDM tables, the
 `domain_id` of a code is a valuable clue for determining where in OMOPCDM
-the FHIR data will be needed.
+the FHIR data will be needed, and whether a resource can be used to populate a
+table entry.
 
-<details><summary>Click to see the results of this analysis...</summary>
+<details><summary>Click to see the relationship between resource codings and concept domains...</summary>
 
 ### Resource Type to `domain_id`
 
@@ -202,7 +208,7 @@ the FHIR data will be needed.
 <details><summary>Click to see the details...</summary>
 
 |     domain_id      |    fhir_resource_type    | total_concept_codes |
-| --- | --- | --- |
+| ------------------ | ------------------------ | ------------------- |
 | Condition          | Encounter                | 36142               |
 | Condition          | Claim                    | 27462               |
 | Condition          | ExplanationOfBenefit     | 26222               |
@@ -284,11 +290,43 @@ the FHIR data will be needed.
 </details>
 
 ---
-### Process
+### The Problem
 
-The mapping process uses the `jq` tool (and language) to pre-load some of
-the most commonly seen concept codes.  This helps determine whether certain
-resources are eligible for mapping to OMOPCDM tables as they are being
-scanned and without the use of a database.
+So, the problem is that we seem to need a database lookup for codes in
+the FHIR resource, and there are many codes to potentially resolve.  It
+would be slow to interact with a database for each code, so what should we do?
+
+The answer is with `jq` custom modules, and with the `fhir-jq` tool, which
+provides such a module (and helpers) for working with FHIR resource json.
 
 This mechanism is encapsulated in the accompanying repo, `fhir-jq`.
+
+
+### `fhir-jq`
+
+At this point you should confirm that you have `fhir-jq` installed and ready
+to go.  If this command doesn't work for you, please visit the Installation
+instructions in the `fhir-jq` README.
+
+```bash
+fhir-jq -rn 'include "fhir"; "SUCCESS"'
+```
+
+If you see the error, `command not found: fhir-jq`, it means that either the
+tool is not installed, or it's not visible from your `$PATH`.
+
+If you see no output at all, it means the tool was installed, but it has not
+loaded the `"fhir"` module correctly.  Check that your `FHIR_JQ` environment
+variable points to a directory with the `fhir-jq` module content.
+
+If you see `SUCCESS`, you're ready!
+
+
+### Process
+
+The mapping process uses the `fhir-jq` tool (and `jq` language) to pre-load
+some of the most commonly seen concept codes.  This helps determine whether
+certain resources are eligible for mapping to OMOPCDM tables while they are being
+scanned and without the use of a database.
+
+See the README.md in the `data/translate/mapping` directory for more details.
