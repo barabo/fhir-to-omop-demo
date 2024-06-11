@@ -3,7 +3,7 @@
 # Notes
 
 In this folder you can start a local HAPI FHIR server, which will persist
-loaded data into `$REPO/data/hapi/h2`.
+loaded data locally into `$REPO/data/hapi/h2`.
 
 ## Prerequisites
 
@@ -174,17 +174,26 @@ Lots can go wrong when you load data.  Some things to keep in mind will help.
 
 ### Docker
 
-Keep an eye on the docker container stats while it's loading in the Docker Desktop UI.
+Keep an eye on the docker container stats while it's loading in the Docker
+Desktop UI.
 
 ![image](https://github.com/barabo/fhir-to-omop-demo/assets/4342684/e17c4d63-e122-4bec-bfc2-f68f64a581e0)
 
-This shows the container usage for a 40 minute load of the Synthea [coherent] fhir data set.
+This shows the container usage for a 40 minute load of the Synthea [coherent]
+fhir data set.
 
-Restarting the server also tends to reduce the H2 database size on shutdown.  If you are having disk space issues, you might try breaking up the loads into separate ETL jobs, and restart the server between them.
+Restarting the server also tends to reduce the H2 database size on shutdown.
+If you are having disk space issues, you might try breaking up the loads into
+separate ETL jobs, and restart the server between them.
 
 ### FHIR Server
 
-The default run options in the Docker image for the hapi fhir server include the ability to delete resources, the indexing of vocabularies, and referential integrity checking after writes and deletes.  These options slow insert performance, so they have been disabled in the `start.sh` script.  You can change this script to re-enable deletes after the data has been fully loaded by changing the `ALLOW_DELETES` env variable to `true`.
+The default run options in the Docker image for the hapi fhir server include
+the ability to delete resources, the indexing of vocabularies, and referential
+integrity checking after writes and deletes.  These options slow insert
+performance, so they have been disabled in the `start.sh` script.  You can
+change this script to re-enable deletes after the data has been fully loaded
+by changing the `ALLOW_DELETES` env variable to `true`.
 
 ```bash
 function start_server() {
@@ -210,12 +219,21 @@ function start_server() {
 }
 ```
 
-You can also make changes to check or not check referential integrity after inserts, or change the thread pool sizes.
+You can also make changes to check or not check referential integrity after
+inserts, or change the thread pool sizes.
 
 ### Database
 
-The backing H2 database is stored locally in a folder `${REPO}/data/hapi/h2` which is bind-mounted to the running container in the `start.sh` script.  In this folder are `h2.mv.db` (the database) and occasionally a `h2.trace.db` (traceback) file.  The traceback file is a text file containing stack traces from a DB crash.  You may discover clues as to why the database failed in this file (such as hints that memory or disk space was exhausted).
+The backing H2 database is stored locally in a folder `${REPO}/data/hapi/h2`
+which is bind-mounted to the running container by the `start.sh` script.  In
+this folder are `h2.mv.db` (the database) and occasionally a `h2.trace.db`
+(traceback) file.  The traceback file is a text file containing stack traces
+from a DB crash.  You may discover clues as to why the database failed in this
+file (such as hints that memory or disk space was exhausted).
 
 ### Data issues
 
-Synthea often separates resource files that must be loaded into a server before the others.  Some examples of these are `practitioners.json` and `organizations.json`.  You can specify a separate, ordered load group to run before the other resource bundles are loaded.
+Synthea often separates resource files that must be loaded into a server
+before the others.  Some examples of these are `practitioners.json` and
+`organizations.json`.  You can specify a separate, ordered load group to run
+before the other resource bundles are loaded.

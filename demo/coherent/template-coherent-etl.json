@@ -1,5 +1,5 @@
 {
-  "fhir_base": "http://localhost:8080/fhir",
+  "fhir_base": "FHIR_BASE",
   "load_groups": [
     {
       "concurrency": 1,
@@ -7,12 +7,12 @@
         "organizations.json",
         "practitioners.json"
       ],
-      "folder": "../coherent/fhir"
+      "folder": "IMPORT_DIR"
     },
     {
       "concurrency": 4,
       "file_name_regex": "[^a-z]*.json",
-      "folder": "../coherent/fhir"
+      "folder": "IMPORT_DIR"
     }
   ]
 }

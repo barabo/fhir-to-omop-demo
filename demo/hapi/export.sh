@@ -2,22 +2,17 @@
 #
 # Bulk export ndjson from a HAPI server.
 #
+source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/data/hapi/export.sh"
+FILE="demo/hapi/export.sh"
 
 set -e
 set -o pipefail
 set -u
 
-EXPORT_DIR="./bulk-exports"
-FHIR_BASE="http://localhost:8080/fhir"
-
 
 ##
-# Get the params needed to create an export.
-#
-# TODO:
-#   [ ] allow for per-resource exports.
+# Get the params needed to initiate a bulk export.
 #
 function get_params() {
   local name="${1}"
@@ -76,6 +71,7 @@ function wait_for_completion() {
   # Jobs that are not ready yet return this header:
   # X-Progress: Build in progress - Status set to IN_PROGRESS at ...
 
+  # TODO: respect the 'allow-wait' or 'retry-after' headers, if present.
   while curl -sv "${status_url}" 2>&1 >/dev/null | grep -q "${header}"; do
     sleep 3 && echo -n .
   done

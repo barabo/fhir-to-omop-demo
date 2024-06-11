@@ -3,14 +3,6 @@
 [PDF]: https://www.mdpi.com/2079-9292/11/8/1199/pdf?version=1649835714
 
 # Notes
-# Notes
-This is the directory where you should unzip the downloaded MITRE [Coherent]
-data.
-
-The files here are referenced by the `demo/vars` file.
-
-## Coherent
-
 The MITRE [Coherent] data set is a multi-modality collection of
 1278 Synthea-generated FHIR patient bundles, clinical notes, DICOM images,
 ECG readings, and DNA testing.
@@ -34,7 +26,6 @@ Once loaded into a FHIR server, it will add roughly 2 million resources!
 
 </details>
 
----
 ## Demo Instructions
 
 - [ ] [Download] the coherent data set, placing the `coherent-11-07-2022.zip` file in your IMPORT_DIR directory.  See the contents of your `/demo/vars` file for the current settings.

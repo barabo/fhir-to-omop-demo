@@ -2,25 +2,36 @@
 #
 # Loads Athena terminology data into an empty OMOPCDM sqlite DB.
 #
+source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/data/athena/load.sh"
+FILE="demo/athena/load.sh"
+
 
 set -e
 set -o pipefail
 set -u
 
+
 # The OMOPCDM database we're loading terminology into.
-DB="cdm.db"
-DDL_DIR="../omopcdm/ddl/5.4/sqlite_extended"
+DB="${CDM_DB}"
+
+# Make sure at least one of the files to be loaded is here already.
+if [ ! -e "${TERMINOLOGY_DIR}/CONCEPT.csv" ]; then
+  cat <<EOM
+Please place the terminology downloads in ${TERMINOLOGY_DIR} and re-run this
+script!
+EOM
+  exit 1
+fi
 
 # If there's no cdm.db yet, create an empty one.
 if [ ! -e "${DB}" ]; then
+  cd "$( dirname "${DB}" )" &>/dev/null
   echo "Creating an initial ${DB} file from DDL..."
-  cd "${DDL_DIR}" &>/dev/null
-  ./update-ddl.sh
-  cd - &>/dev/null
-  cp "${DDL_DIR}/cdm.db" "${DB}"
+  "${DDL_DIR}/update-ddl.sh"
   echo
+  cp "${CDM_DB}" "${DATA_DIR}/empty.db"
+  cd - &>/dev/null
 fi
 
 
@@ -44,8 +55,10 @@ function get_tables() {
 # Reset the DB to an empty state.
 #
 function reset_db() {
+  local empty="${DATA_DIR}/empty.db"
+
   # Optimization for testing.
-  [ -e empty.db ] && cp empty.db "${DB}"
+  [ -e "${empty}" ] && cp "${empty}" "${DB}"
 
   # Only truncate Athena tables that can be reloaded.
   for table in ` get_tables `; do
@@ -54,7 +67,7 @@ function reset_db() {
   done
 
   # Keep a copy of the empty.db for future runs.
-  [ -e empty.db ] || cp "${DB}" empty.db && sqlite3 empty.db 'vacuum;'
+  [ -e "${empty}" ] || cp "${DB}" "${empty}" && sqlite3 "${empty}" 'vacuum;'
 }
 
 
@@ -126,10 +139,12 @@ echo "Truncating Athena tables in ${DB}!"
 reset_db
 
 # Load all Athena vocab files in increasing size order.
+cd "${TERMINOLOGY_DIR}" &>/dev/null
 for csv in ` ls -Sr *.csv `; do
   [[ ${csv} =~ CONCEPT_CPT4.* ]] && echo "...skipping ${csv}" && continue
   load ${csv}
 done
+cd - &>/dev/null
 
 # Optional sanity checks.
 if [ -z ${DEBUG+on} ]; then

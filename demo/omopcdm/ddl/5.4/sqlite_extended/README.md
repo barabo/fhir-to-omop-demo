@@ -1,6 +1,9 @@
+[sqlite_extended](https://github.com/OHDSI/CommonDataModel/tree/main/ddl/5.4/sqlite_extended)
+
 # Notes
 
-The `OMOPCDM*.sql` files here were taken from the reference [sqlite_extended](https://github.com/OHDSI/CommonDataModel/tree/main/ddl/5.4/sqlite_extended) source.
+The `OMOPCDM*.sql` files here were taken from the reference [sqlite_extended]
+source.
 
 There are some data definition issues to be aware of in version 5.4.
   * the `COHORT` table has no `PRIMARY KEY`, and without one the foreign key checks fail for the DB.

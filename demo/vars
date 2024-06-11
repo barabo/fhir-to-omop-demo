@@ -1,0 +1,31 @@
+#
+# This file is sourced by other scripts, so you can make changes to this file
+# and still run the steps.
+#
+REPO="https://github.com/barabo/fhir-to-omop-demo"
+FILE="/demo/vars"
+
+# Can be used by scripts that source this file.
+THIS_DIR="$( realpath "$( dirname "${0}" )" )"
+REPO_DIR="${THIS_DIR%%/fhir-to-omop-demo*}/fhir-to-omop-demo"
+DEMO_DIR="${REPO_DIR}/demo"
+
+# A central place where large amounts of data can be put.
+# This could be on a larger or faster volume, if wanted.
+DATA_DIR="${REPO_DIR}/data"
+EXPORT_DIR="${DATA_DIR}/bulk-export"
+IMPORT_DIR="${DATA_DIR}/coherent/fhir"
+
+# This is the cdm.db that we're loading data into.
+CDM_DB="${DATA_DIR}/cdm.db"
+
+# This is where you should put your downloaded and extracted Athena files.
+TERMINOLOGY_DIR="${DATA_DIR}/athena"
+
+# FHIR server variables.
+FHIR_PORT=8080
+FHIR_SERVER="http://localhost:${FHIR_PORT}"
+FHIR_BASE="${FHIR_SERVER}/fhir"
+
+# OMOPCDM DDL files
+DDL_DIR="${DEMO_DIR}/omopcdm/ddl/5.4/sqlite_extended"

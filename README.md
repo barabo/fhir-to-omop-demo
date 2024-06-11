@@ -30,14 +30,18 @@ Each of the directories in this repo contain instructions and notes, but you
 should understand the basic flow of instructions before you begin.
 
 You will:
-- [ ] Download the MITRE Coherent data set and extract it into `coherent`
-- [ ] Download terminology data from Athena and place it into `athena`
-- [ ] Load the terminology into an empty OMOPCDM database by running the script provided in `omopcdm`
-- [ ] Load the Coherent FHIR resources into a local hapi server by running the scripts in `hapi`
-- [ ] Bulk Export the data from hapi, placing the ndjson files into `convert/fhir/export`
-- [ ] Install `jq` and configure it to use the module provided in `../fhir-jq/module`
-- [ ] Convert FHIR-to-OMOP by running the script in `convert`
-- [ ] Load the converted OMOPCDM data by running the script in `load`
+- [ ] Download the MITRE Coherent data set and extract it into `data/coherent`
+- [ ] Download terminology data from Athena and place it into `data/athena`
+- [ ] Load the terminology into an empty OMOPCDM database by running the script provided in `demo/omopcdm`
+- [ ] Load the Coherent FHIR resources into a local hapi server by running the scripts in `demo/hapi`
+- [ ] Bulk Export the data from hapi, placing the ndjson files into `data/bulk-export/`
+- [ ] Install `jq` and configure it to use the module provided in `fhir-jq/module`
+- [ ] Translate FHIR-to-OMOP by running the script in `demo/translate`
+- [ ] Load the OMOPCDM data by running the script in `demo/load`
+
+## Get Started
+
+Begin with the README.md in the `fhir-to-omop-demo/demo` directory!
 
 ## Citations
 

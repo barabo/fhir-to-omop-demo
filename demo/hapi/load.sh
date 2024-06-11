@@ -2,16 +2,18 @@
 #
 # Loads data into a running hapi fhir server.
 #
+source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/data/hapi/load.sh"
+FILE="/demo/hapi/load.sh"
 
 set -e
 set -o pipefail
 set -u
 
-# Allow the script to be invoked from other directories and still work.
-THIS_DIR="$( dirname ${0} )"
 
+##
+# Display script usage.
+#
 function usage() {
   local message="${@}"
   cat <<EOM
@@ -50,13 +52,22 @@ function get_batches() {
 }
 
 
+# Warn (but allow it) if the fhir server in the ETL file does not match the
+# configured one in /demo/vars.
+if [[ $FHIR_BASE != $( etl fhir_base ) ]]; then
+  cat <<ALERT
+WARNING: your etl uses a different FHIR server endpoint than the FHIR_BASE
+defined in your your vars file: ${DEMO_DIR}/vars
+ALERT
+fi
+
+
 # The base server where data is loaded to.
 export FHIR_BASE="$( etl fhir_base )"
 
 
 # Make sure the server is started already.
 ${THIS_DIR}/start.sh >/dev/null
-# TODO: this could be a config item .start_script
 
 
 ##
@@ -135,13 +146,13 @@ while read concurrency file_name_regex files folder; do
   # Keep track of which batch this is so we can access the batch .files.
   (( batch++ ))
 
-  # Load files matching a regex.
+  # Load files matching a regex in parallel.
   if [[ $files == null ]]; then
     load_files_matching ${concurrency} "${file_name_regex}" "${folder}"
     continue
   fi
 
-  # Load named files.
+  # Load named files 1 at a time.
   etl "load_groups[${batch}].files[]" | \
   while read filename; do
     if (( concurrency != 1 )); then

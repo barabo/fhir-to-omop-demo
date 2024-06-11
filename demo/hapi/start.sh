@@ -2,19 +2,21 @@
 #
 # Start a local HAPI FHIR server.
 #
+THIS_DIR="$( realpath $( dirname "${0}" ) )"
+source "${THIS_DIR}/../vars"
+
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/data/hapi/start.sh"
+FILE="/demo/hapi/start.sh"
 
 set -e
 set -o pipefail
 set -u
 
 # Create a local folder for the H2 database that will be used by HAPI.
-THIS_DIR="$( realpath $( dirname ${0} ) )"
-H2="${THIS_DIR}/h2"
+H2="${DATA_DIR}/hapi/h2"
 mkdir -p "${H2}"
 
-# Can be disabled for performant loads..
+# Can be disabled for more performant loads.
 ALLOW_DELETES="false"
 
 # This is where the local folder will appear inside the container.
@@ -30,7 +32,7 @@ function start_server() {
     --interactive \
     --tty \
     --name ${NAME} \
-    --publish 8080:8080 \
+    --publish ${FHIR_PORT}:8080 \
     --mount "type=bind,src=${H2},target=${MOUNT_TARGET}" \
     --env "hapi.fhir.allow_cascading_deletes=${ALLOW_DELETES}" \
     --env "hapi.fhir.allow_multiple_delete=${ALLOW_DELETES}" \
@@ -61,4 +63,19 @@ Before you can restart it again, prune the stopped containers.
 EOM
 else
   start_server
+  echo -n "Waiting for server to start..."
+  while true; do
+    if ! curl ${FHIR_SERVER}/ &>/dev/null; then
+      sleep 1
+      echo -n .
+    else
+      echo -e "\r$( tput el )"
+      break
+    fi
+  done
+  cat <<EOM
+ 0/ - Visit your local FHIR server at: ${FHIR_SERVER}
+<Y
+/ >
+EOM
 fi

@@ -1,6 +1,7 @@
 #!/bin/bash
+source "$( dirname "${0}" )/../../../../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="data/omopcdm/ddl/5.4/sqlite_extended/update-ddl.sh"
+FILE="demo/omopcdm/ddl/5.4/sqlite_extended/update-ddl.sh"
 _URL="${REPO}/blob/main/${FILE}"
 #
 # Converts the OMOP-provided DDL database definition scripts into a format
@@ -15,6 +16,16 @@ _URL="${REPO}/blob/main/${FILE}"
 set -e
 set -o pipefail
 set -u
+
+# Before doing anything, check for an existing cdm.db and block overwrites.
+if [ -e ./cdm.db ]; then
+  cat <<EOM
+Refusing to overwrite an existing cdm.db!  Please delete the cdm.db in the
+current directory, or run this script from a directory that does not have
+an existing cdm.db
+EOM
+  exit 1
+fi
 
 # Jump into the script directory.
 cd "$( dirname "${0}" )"
