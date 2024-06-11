@@ -36,6 +36,13 @@ You will also need to download a few pieces of data.
 - [ ] the MITRE [coherent] data set
 - [ ] terminology data from Athena
 
+### Install CLI Prerequisites
+
+If you are using `apt` you can `sudo apt install jq sqlite3 zstd`, or for OSX
+homebrew users: `brew install jq sqlite3 zstd`.
+
+### Clone Repose
+
 For this demo, I recommend cloning into a new directory (I prefer working in `~/code`).
 
 ```bash
@@ -51,7 +58,7 @@ gh repo clone barabo/fhir-to-omop-demo
 cd fhir-to-omop-demo
 ```
 
-## Docker
+### Docker
 
 To test your docker installation, run `docker run hello-world` in a terminal.
 
