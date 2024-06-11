@@ -144,7 +144,7 @@ batch=-1
 get_batches | \
 while read concurrency file_name_regex files folder; do
   # Keep track of which batch this is so we can access the batch .files.
-  (( batch++ ))
+  (( batch++ )) || true
 
   # Load files matching a regex in parallel.
   if [[ $files == null ]]; then
