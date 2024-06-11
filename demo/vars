@@ -16,6 +16,10 @@ DATA_DIR="${REPO_DIR}/data"
 EXPORT_DIR="${DATA_DIR}/bulk-export"
 IMPORT_DIR="${DATA_DIR}/coherent/fhir"
 
+# These locations are used for translation.
+FHIR_IN="${EXPORT_DIR}/fhir"
+OMOP_OUT="${DATA_DIR}/omop"
+
 # This is the cdm.db that we're loading data into.
 CDM_DB="${DATA_DIR}/cdm.db"
 
