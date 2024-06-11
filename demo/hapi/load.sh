@@ -113,6 +113,9 @@ function load() {
 
   # Print a summary of the load results for the loaded file.
   summarize "${filename}"
+
+  # Clean up the .log file.
+  rm -f "${filename}.log"
 }
 
 
