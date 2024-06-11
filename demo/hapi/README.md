@@ -12,6 +12,16 @@ loaded data locally into `$REPO/data/hapi/h2`.
 - [ ] The loader script requires `jq` to be installed.
 - [ ] The bulk exporter script uses `zstd` to compress exports.
 
+# Demo Steps
+
+Follow these steps to start the server, import coherent data, perform a bulk
+export, and unpack the export archive for the translation step to follow.
+
+- [ ] `./start.sh`
+- [ ] `./load.sh coherent-etl.json`
+- [ ] `./export.sh`
+- [ ] `../../data/bulk-export/unpack.sh`
+
 # Operations
 
 ## Start
