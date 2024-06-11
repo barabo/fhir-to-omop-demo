@@ -2,9 +2,7 @@
 #
 # Start a local HAPI FHIR server.
 #
-THIS_DIR="$( realpath $( dirname "${0}" ) )"
-source "${THIS_DIR}/../vars"
-
+source "$( realpath $( dirname "${0}" ) )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="/demo/hapi/start.sh"
 
@@ -25,9 +23,24 @@ MOUNT_TARGET="/persisted"
 # docker container name.
 NAME="fhir-to-omop-demo-hapi-server"
 
+
+##
+# Run docker with or without sudo, depending on your settings in demo/vars.
+#
+function _docker() {
+  if [ ${SUDO_DOCKER} ]; then
+    # Enable root-run docker to create and read the h2 database files.
+    chmod 777 "${DATA_DIR}/hapi/h2"
+    sudo docker "${@}"
+  else
+    docker "${@}"
+  fi
+}
+
+
 # Launch the server, saving resources to the local DB.
 function start_server() {
-  docker run \
+  _docker run \
     --detach \
     --interactive \
     --tty \
@@ -50,7 +63,7 @@ function start_server() {
 
 
 # Ignore invocations if the server is already running.
-if docker ps --format '{{.Names}}' | grep -q "^${NAME}$"; then
+if _docker ps --format '{{.Names}}' | grep -q "^${NAME}$"; then
   cat <<EOM
 The ${NAME} container is already running.
 

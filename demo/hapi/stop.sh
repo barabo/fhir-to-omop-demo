@@ -12,12 +12,25 @@ set -u
 
 NAME="fhir-to-omop-demo-hapi-server"
 
+
+##
+# Run docker with or without sudo, depending on your settings in demo/vars.
+#
+function _docker() {
+  if [ ${SUDO_DOCKER} ]; then
+    sudo docker "${@}"
+  else
+    docker "${@}"
+  fi
+}
+
+
 # Stop a running hapi fhir server.
-if docker ps --format '{{.Names}}' | grep -q "^${NAME}$"; then
+if _docker ps --format '{{.Names}}' | grep -q "^${NAME}$"; then
   echo "Stopping server..."
   {
-    docker container stop "${NAME}"
-    docker container rm "${NAME}"
+    _docker container stop "${NAME}"
+    _docker container rm "${NAME}"
   } >/dev/null
   echo "DONE!"
 else

@@ -27,5 +27,10 @@ FHIR_PORT=8080
 FHIR_SERVER="http://localhost:${FHIR_PORT}"
 FHIR_BASE="${FHIR_SERVER}/fhir"
 
+# Set this to true or false to enable or disable running docker as root.
+# You shouldn't have to, but I've found on some systems where you have
+# recently set up docker this is required.
+SUDO_DOCKER="false"
+
 # OMOPCDM DDL files
 DDL_DIR="${DEMO_DIR}/omopcdm/ddl/5.4/sqlite_extended"
