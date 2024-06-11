@@ -4,7 +4,7 @@
 #
 source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/demo/hapi/stop.sh"
+FILE="demo/hapi/stop.sh"
 
 set -e
 set -o pipefail
@@ -17,10 +17,15 @@ NAME="fhir-to-omop-demo-hapi-server"
 # Run docker with or without sudo, depending on your settings in demo/vars.
 #
 function _docker() {
-  if [ ${SUDO_DOCKER} ]; then
+  if [ "${SUDO_DOCKER}" == "true"  ]; then
+    # Enable root-run docker to create and read the h2 database files.
+    chmod 777 "${DATA_DIR}/hapi/h2"
     sudo docker "${@}"
-  else
+  elif [ "${SUDO_DOCKER}" == "false" ]; then
     docker "${@}"
+  else
+    echo "Unknown setting for SUDO_DOCKER in ${DEMO_DIR}/vars!"
+    exit 1
   fi
 }
 

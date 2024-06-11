@@ -22,6 +22,15 @@ In this demo, you will do the following in phases.
 
 This demo assumed you have a few tools at your disposal already.
 
+## Recommended Hardware
+This demo takes a few hours to complete, depending on your OS and hardware.
+Getting Docker set up may be a challenge if you don't have it already, and
+there is a fair amount of time spent waiting for downloads to download and
+for data to load into and out of the FHIR server.
+
+You will need at least 70GB of available disk space, but it will be easier
+for you if you have 100GB.  An SSD is highly recommended.
+
 <details><summary>Click to see the pre-demo checklist...</summary>
 
 You should have (or install)...
@@ -119,6 +128,10 @@ option.
 
 You should now have a compressed tar file with the full bulk export contents
 saved in `data/bulk-export/full`!
+
+You won't need the hapi server running anymore, so it is recommended to stop
+it to free up disk space.  If you know you won't need it anymore, you can
+delete the H2 database by running the `demo/hapi/nuke.sh` script.
 
 
 ---

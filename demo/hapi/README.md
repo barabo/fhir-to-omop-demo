@@ -7,6 +7,7 @@ loaded data locally into `$REPO/data/hapi/h2`.
 
 ## Prerequisites
 
+- [ ] You have 40 GB of disk space available in your data directory.
 - [ ] You must have Docker installed and running on your system.
 - [ ] The loader script requires `jq` to be installed.
 - [ ] The bulk exporter script uses `zstd` to compress exports.
@@ -26,6 +27,13 @@ To stop the server, run this.
 
 ```bash
 ./stop.sh
+```
+
+## Nuke
+To stop the server and completely wipe it's H2 database, run this.
+
+```bash
+./nuke.sh
 ```
 
 ## Load
