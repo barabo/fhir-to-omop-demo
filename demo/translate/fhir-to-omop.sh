@@ -20,7 +20,8 @@ rm -f data-omop && ln -s ${OMOP_OUT} $_
 RESOURCES=(
   'Location'
 #  'Organization'
-#  'Provider'
+  'Practitioner'
+  'PractitionerRole'
 #  'Encounter'
 )
 
