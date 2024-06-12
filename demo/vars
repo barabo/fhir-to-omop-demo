@@ -38,3 +38,12 @@ SUDO_DOCKER="false"
 
 # OMOPCDM DDL files
 DDL_DIR="${DEMO_DIR}/omopcdm/ddl/5.4/sqlite_extended"
+
+# FHIR_JQ settings
+FHIR_JQ_REPO="$( realpath "${REPO_DIR}/../fhir-jq" )"
+FHIR_JQ="${FHIR_JQ_REPO}/module"
+FHIR_JQ_BIN="${FHIR_JQ_REPO}/fhir-jq/bin"
+
+# Export these for fhir-jq, which needs them.
+export FHIR_JQ
+export PATH="${PATH}:${FHIR_JQ_BIN}"
