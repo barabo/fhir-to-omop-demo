@@ -18,11 +18,30 @@ rm -f data-omop && ln -s ${OMOP_OUT} $_
 # The list of FHIR resources to process in order.
 #
 RESOURCES=(
-  'Location'
-#  'Organization'
-  'Practitioner'
-  'PractitionerRole'
-#  'Encounter'
+#  "AllergyIntolerance"        #     ~500
+#  "CarePlan"                  #   ~6,500
+#  "CareTeam"                  #   ~6,500
+#  "Claim"                     # ~353,500
+#  "Condition"                 #  ~16,000
+#  "Device"                    #     ~500
+#  "DiagnosticReport"          # ~201,500
+#  "DocumentReference"         # ~144,000
+#  "Encounter"                 # ~144,000
+#  "ExplanationOfBenefit"      # ~144,000
+#  "ImagingStudy"              #   ~4,000
+#  "Immunization"              #  ~12,000
+  "Location"                   #   ~1,500
+#  "Media"                     #   ~1,500
+#  "MedicationAdministration"  #   ~1,500
+#  "MedicationRequest"         # ~209,500
+#  "Medication"                #   ~1,500
+#  "Observation"               # ~670,000
+#  "Organization"              #   ~1,500
+#  "Patient"                   #   ~1,500
+  "PractitionerRole"           #   ~1,500
+  "Practitioner"               #   ~1,500
+#  "Procedure"                 #  ~56,500
+#  "Provenance"                #   ~1,500
 )
 
 
