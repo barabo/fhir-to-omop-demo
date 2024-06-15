@@ -17,8 +17,14 @@ rm -f data-omop && ln -s ${OMOP_OUT} $_
 #
 # The list of FHIR resources to process in order.
 #
+# TODO Consult: https://build.fhir.org/ig/HL7/cdmh/profiles.html#omop-52-to-fhir-r4-mappings
+#
 RESOURCES=(
+# TODO: enable when AllergyIntolerance is in fhir-jq
 #  "AllergyIntolerance"        #     ~500
+  # Maps to OMOP tables:
+  #   condition_occurrence
+
 #  "CarePlan"                  #   ~6,500
 #  "CareTeam"                  #   ~6,500
 #  "Claim"                     # ~353,500
@@ -31,15 +37,28 @@ RESOURCES=(
 #  "ImagingStudy"              #   ~4,000
 #  "Immunization"              #  ~12,000
   "Location"                   #   ~1,500
+  # Maps to OMOP tables:
+  #   care_site
+  #   location
+
 #  "Media"                     #   ~1,500
 #  "MedicationAdministration"  #   ~1,500
 #  "MedicationRequest"         # ~209,500
 #  "Medication"                #   ~1,500
 #  "Observation"               # ~670,000
-#  "Organization"              #   ~1,500
+  "Organization"              #   ~1,500
+  # Maps to OMOP tables:
+  #   care_site
+
 #  "Patient"                   #   ~1,500
   "PractitionerRole"           #   ~1,500
+  # Maps to OMOP tables:
+  #   provider
+
   "Practitioner"               #   ~1,500
+  # Maps to OMOP tables:
+  #   provider
+
 #  "Procedure"                 #  ~56,500
 #  "Provenance"                #   ~1,500
 )
