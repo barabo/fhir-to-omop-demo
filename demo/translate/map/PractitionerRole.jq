@@ -23,7 +23,7 @@ PractitionerRole |
   # id of the practitioner, not the PractitionerRole ID in the fhir server.
   #
   # provider_id
-  .pracitioner_id,
+  .practitioner_id,
   .practitioner.display,   # provider_name
   null,                    # npi - covered in Practitioner.jq
   null,                    # dea
