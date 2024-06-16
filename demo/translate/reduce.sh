@@ -2,10 +2,13 @@
 #
 # Reduces translated OMOPCDM data into loadable rows
 #
+source "$( dirname "${0}" )/../vars"
 
 set -e
 set -o pipefail
 set -u
+
+echo "Resetting cdm.db..." && cp -v "${CDM_DB}" ./cdm.db # XXX - testing
 
 
 ##
@@ -67,21 +70,25 @@ function reduce() {
   local table_name=${1}
   local resource_files=$( get_resource_filenames ${2} )
   [ -z "${resource_files}" ] && return
-  sed -n "s/^${table_name}\t//p" ${resource_files} | sort -n | awk '
+  sed -n "s/^${table_name}\t//p" ${resource_files} \
+    | sort -n \
+    | awk '
 BEGIN { FS = "\t" }
 
 func emit() {
   # Print the merged row.
-  ORS=""; for (i = 1; i <= NF; i++) print row[i] "\t";
+  ORS=""; print row[1]; for (i = 2; i <= NF; ++i) print FS row[i];
   ORS="\n"; print ""
   # Copy the current row into 'row'.
-  for (i = 1; i <= NF; i++) row[i] = $i
+  for (i = 1; i <= NF; ++i) row[i] = $i
 }
 
 func merge() {
-  for (i = 1; i <= NF; i++) {
+  for (i = 1; i <= NF; ++i) {
     if (row[i] == "") {
       row[i] = $i
+    } else if ($i != "" && row[i] != $i) {
+      system("echo MERGE CONFLICT: " $i " != " row[i] " 1>&2")
     }
   }
 }
@@ -96,8 +103,14 @@ func merge() {
 
 END { emit() }
 ' \
-  | sed -e 's:.$::' \
   > data-omop/${table_name}.tsv
+
+  # Load the data into the database.
+  sqlite3 cdm.db <<SQL
+.mode ascii
+.separator "\t" "\n"
+.import data-omop/${table_name}.tsv ${table_name}
+SQL
 }
 
 
