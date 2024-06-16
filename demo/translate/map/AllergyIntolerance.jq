@@ -26,7 +26,7 @@ def verification_status:
 # FHIR AllergyIntolerance -> OMOPCDM condition_occurrence
 AllergyIntolerance |
 [
-  "condition_occurrence",                # COLUMNS
+  "condition_occurrence",                # TABLE COLUMNS
     .id | tonumber,                      # condition_occurrence_id
     .patient | dereference,              # person_id
     condition.concept.concept_id,        # condition_concept_id

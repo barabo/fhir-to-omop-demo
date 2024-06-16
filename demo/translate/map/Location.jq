@@ -20,7 +20,7 @@ Location |
     .address.city,        # city
     .address.state,       # state
     .address.postalCode,  # zip
-    null                  # county
+    null,                 # county
     .name,                # location_source_value
     4330442,              # country_concept_id     HACK
     "USA",                # country_source_value   HACK
