@@ -83,7 +83,5 @@ for resource_type in ${RESOURCES[@]}; do
 done
 
 
-cat <<TODO
-TODO:
-  * create a fhir-jq map for Location
-TODO
+# Reduce the tsv and load into the cdm.db.
+./reduce.sh
