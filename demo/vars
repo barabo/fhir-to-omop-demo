@@ -5,6 +5,10 @@
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="/demo/vars"
 
+# For scripts that use concurrency, this is a default setting for
+# the number of parallel operations.
+CONCURRENCY=8
+
 # Can be used by scripts that source this file.
 THIS_DIR="$( realpath "$( dirname "${0}" )" )"
 REPO_DIR="${THIS_DIR%%/fhir-to-omop-demo*}/fhir-to-omop-demo"
