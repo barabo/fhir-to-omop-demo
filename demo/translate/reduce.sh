@@ -109,7 +109,7 @@ func merge() {
     if (row[i] == "") {
       row[i] = $i
     } else if ($i != "" && row[i] != $i) {
-      system("echo ${table_name}: MERGE CONFLICT: " $i " != " row[i] " 1>&2")
+      system("echo MERGE CONFLICT: " $i " != " row[i] " 1>&2")
     }
   }
 }

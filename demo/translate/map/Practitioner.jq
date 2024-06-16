@@ -16,7 +16,7 @@ Practitioner |
 [
   "provider",              # OMOP pracitioner table
   .id,                     # provider_id
-  null,                    # provider_name
+  null,                    # provider_name               # See PractitionerRole.display
   .npi,                    # npi
   null,                    # dea
   null,                    # specialty_concept_id
