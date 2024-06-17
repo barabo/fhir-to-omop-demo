@@ -21,7 +21,7 @@ rm -f data-omop && ln -s ${OMOP_OUT} $_
 #
 RESOURCES=(
 # TODO: enable when AllergyIntolerance is in fhir-jq
-#  "AllergyIntolerance"        #     ~500
+  "AllergyIntolerance"        #     ~500
   # Maps to OMOP tables:
   #   condition_occurrence
 
@@ -65,6 +65,7 @@ RESOURCES=(
 
 
 # Process the resource types in the order they are declared.
+echo "Converting FHIR R4 to OMOP CDM 5.4..."
 for resource_type in ${RESOURCES[@]}; do
   # Sanity check that there's a mapping for a type.
   if [ ! -e "./map/${resource_type}.jq" ]; then
@@ -72,13 +73,13 @@ for resource_type in ${RESOURCES[@]}; do
     continue
   fi
 
-  echo "MAPPING: ${resource_type}..."
+  echo "    MAPPING ${resource_type}..."
 
   # Find all the ndjson files for a FHIR Resource type and pass them through
   # The fhir-jq filter using xargs to process multiple files per invocation.
   # The resulting OMOP staging data are emitted into the OMOP_OUT directory.
   find ${FHIR_IN} -type f -name "${resource_type}_*.ndjson" \
-    | xargs fhir-jq -r "$( cat ./map/${resource_type}.jq )" \
+    | xargs -P${CONCURRENCY} fhir-jq -r "$( cat ./map/${resource_type}.jq )" \
     > ${OMOP_OUT}/stg-${resource_type}.tsv
 done
 

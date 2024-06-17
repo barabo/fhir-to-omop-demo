@@ -8,7 +8,7 @@ set -e
 set -o pipefail
 set -u
 
-echo "Resetting cdm.db..." && cp -v "${CDM_DB}" ./cdm.db # XXX - testing
+echo "Resetting cdm.db..." && cp -v "${CDM_DB}" ./cdm.db | sed -e 's:^:    COPYING :'  # XXX - testing
 
 
 ##

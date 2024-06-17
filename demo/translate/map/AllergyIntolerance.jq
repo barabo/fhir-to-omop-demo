@@ -27,8 +27,8 @@ def verification_status:
 AllergyIntolerance |
 [
   "condition_occurrence",                # TABLE COLUMNS
-    .id | tonumber,                      # condition_occurrence_id
-    .patient | dereference,              # person_id
+    .id,                                 # condition_occurrence_id
+    .patient.id,                         # person_id
     condition.concept.concept_id,        # condition_concept_id
     .recordedDate,                       # condition_start_date
     .recordedDate,                       # condition_start_datetime
