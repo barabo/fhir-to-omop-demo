@@ -31,7 +31,13 @@ RESOURCES=(
 #  "Device"                    #     ~500
 #  "DiagnosticReport"          # ~201,500
 #  "DocumentReference"         # ~144,000
-#  "Encounter"                 # ~144,000
+  "Encounter"                  # ~144,000
+  # Maps to OMOP tables:
+  #   condition_occurrence     #   ~1,000
+  #   observation              #  ~90,000
+  #   procedure_occurrence     #  ~53,000
+  #   visit_occurrence         #       ~0
+
 #  "ExplanationOfBenefit"      # ~144,000
 #  "ImagingStudy"              #   ~4,000
 #  "Immunization"              #  ~12,000
