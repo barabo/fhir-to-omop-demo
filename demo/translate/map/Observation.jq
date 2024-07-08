@@ -31,7 +31,7 @@ def procedure: code_concept("Procedure");
 def observation:
   ["Condition", "Device", "Drug", "Measurement", "Procedure"] as $forbidden |
   (
-    .code.coding[] 
+    .code.coding[]
     | [select(.concept.domain_id | IN($forbidden[]) | not)]
   ) as $concepts |
   if ($concepts | length) > 1 then
