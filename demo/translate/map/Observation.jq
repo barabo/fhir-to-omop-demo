@@ -44,6 +44,15 @@ def observation:
 ;
 
 
+# HACK: the coherent data set is missing codes for DNA observations, which
+#       should be considered laboratory tests.  This inserts a laboratory
+#       code for any observation category that doesn't have a code.
+.category |= map(
+  .coding |= map(
+    if has("code") | not then . + {"code": "laboratory"} else . end
+  )
+) |
+
 Observation |
 [
   "condition_occurrence",       # TABLE COLUMNS
