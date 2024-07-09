@@ -31,6 +31,7 @@ RESOURCES=(
 #  "Device"                    #     ~500
 #  "DiagnosticReport"          # ~201,500
 #  "DocumentReference"         # ~144,000
+
   "Encounter"                  # ~144,000
   # Maps to OMOP tables:
   #   condition_occurrence     #   ~1,000
@@ -47,30 +48,45 @@ RESOURCES=(
   #   location                 #   ~1,000
 
 #  "Media"                     #   ~1,500
+
+  "Medication"                 #   ~1,500
+  # Maps to OMOP tables:
+  #   drug_exposure            #   ~1,000
+
   "MedicationAdministration"  #   ~1,500
+  # Maps to OMOP tables:
+  #   drug_exposure            #   ~1,000
+
   "MedicationRequest"         # ~209,500
-  "Medication"                #   ~1,500
-  "Observation"               # ~670,000
   # Maps to OMOP tables:
-  #   condition_occurrence    #       ~0
-  #   device_exposure         #       ~0
-  #   drug_exposure           #       ~0
-  #   measurement             # ~645,000
-  #   observation             #  ~25,000
-  #   procedure_occurrence    #   ~1,000
+  #   drug_exposure            #   ~1,000
 
-  "Organization"              #   ~1,500
+  "Observation"                # ~670,000
   # Maps to OMOP tables:
-  #   care_site               #   ~1,000
+  #   condition_occurrence     #       ~0
+  #   device_exposure          #       ~0
+  #   drug_exposure            #       ~0
+  #   measurement              # ~645,000
+  #   observation              #  ~25,000
+  #   procedure_occurrence     #   ~1,000
 
-#  "Patient"                   #   ~1,500
+  "Organization"               #   ~1,500
+  # Maps to OMOP tables:
+  #   care_site                #   ~1,000
+
+  "Patient"                    #   ~1,500
+  # Maps to OMOP tables:
+  #   person                   #   ~1,000
+
   "PractitionerRole"           #   ~1,500
   # Maps to OMOP tables:
+  #   person                   #   ~1,000
   #   provider                 #   ~1,000
 
   "Practitioner"               #   ~1,500
   # Maps to OMOP tables:
-  #   provider
+  #   person                   #   ~1,000
+  #   provider                 #   ~1,000
 
 #  "Procedure"                 #  ~56,500
 #  "Provenance"                #   ~1,500
