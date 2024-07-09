@@ -47,9 +47,9 @@ RESOURCES=(
   #   location                 #   ~1,000
 
 #  "Media"                     #   ~1,500
-#  "MedicationAdministration"  #   ~1,500
-#  "MedicationRequest"         # ~209,500
-#  "Medication"                #   ~1,500
+  "MedicationAdministration"  #   ~1,500
+  "MedicationRequest"         # ~209,500
+  "Medication"                #   ~1,500
   "Observation"               # ~670,000
   # Maps to OMOP tables:
   #   condition_occurrence    #       ~0
