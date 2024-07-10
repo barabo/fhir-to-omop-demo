@@ -10,7 +10,7 @@ include "fhir/common";
 def drug:
   if has("medicationCodeableConcept") then
     if (.medicationCodeableConcept.coding | length) > 1 then
-      error("Multiple medicationCodeableConcept.codings in MedicationRequest/\(.id)")
+      debug("Multiple medicationCodeableConcept.codings in MedicationRequest/\(.id)")
     end
     | .medicationCodeableConcept.coding[0].concept
   else

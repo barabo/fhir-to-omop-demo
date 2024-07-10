@@ -109,6 +109,14 @@ Encounter |
     null                       # obs_event_field_concept_id
 ],
 [
+  "observation_period",       # TABLE COLUMNS
+    .id,                       # observation_period_id
+    .subject.id,               # person_id
+    .period.start,             # observation_period_start_date
+    .period.end,               # observation_period_end_date
+    32827                      # period_type_concept_id - EHR encounter record
+],
+[
   "procedure_occurrence",       # TABLE COLUMNS
     .id,                          # procedure_occurrence_id
     .subject.id,                  # person_id
@@ -131,6 +139,7 @@ Encounter |
   ((.[0] == "condition_occurrence") and length == 17) or
   ((.[0] == "visit_occurrence") and length == 18) or
   ((.[0] == "observation") and length == 22) or
+  ((.[0] == "observation_period") and length == 6) or
   ((.[0] == "procedure_occurrence") and length == 17)
 )
 |
