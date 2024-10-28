@@ -5,7 +5,7 @@
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="demo/coherent/mirror-get.sh"
 
-pushd .
+pushd . &>/dev/null
 cd "$( dirname "${0}" )"
 source "../../demo/vars" || popd &> /dev/null
 
