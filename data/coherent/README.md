@@ -3,7 +3,6 @@
 [PDF]: https://www.mdpi.com/2079-9292/11/8/1199/pdf?version=1649835714
 
 # Notes
-# Notes
 This is the directory where you should unzip the downloaded MITRE [Coherent]
 data.
 
