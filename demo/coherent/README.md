@@ -28,7 +28,7 @@ Once loaded into a FHIR server, it will add roughly 2 million resources!
 
 ## Demo Instructions
 
-- [ ] [Download] the coherent data set, placing the `coherent-11-07-2022.zip` file in your IMPORT_DIR directory.  See the contents of your `/demo/vars` file for the current settings.
+- [ ] [Download] the coherent data set, placing the `coherent-11-07-2022.zip` file in your IMPORT_DIR directory.  See the contents of your [`/demo/vars`](https://github.com/barabo/fhir-to-omop-demo/blob/main/demo/vars) file for the current settings.
 - [ ] Extract the zipped contents with `unzip coherent-11-07-2022.zip`
 - [ ] Generate an `etl.json` file using the `generate-etl.sh` script.
 
