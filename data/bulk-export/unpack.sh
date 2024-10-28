@@ -5,6 +5,11 @@
 source "$( dirname "${0}" )/../../demo/vars"
 
 
+set -e
+set -o pipefail
+set -u
+
+
 ##
 # Returns export files matching a filename prefix, if provided.
 #
@@ -32,13 +37,13 @@ function unpack() {
   cd "${FHIR_IN}/../"
     rmdir fhir
     echo "Unpacking export into: ${FHIR_IN}..."
-    unzstd --stdout "${export_file}" | tar -xz
+    unzstd --stdout "${export_file}" | tar -x
     mv "${export_id}" "${FHIR_IN}"
   cd - &>/dev/null
 }
 
 
-FOUND=$(( $( find-exports "${1:-}"| wc -l ) ))
+FOUND=$(( $( find-exports "${1:-}" | wc -l ) ))
 
 
 # Fail if there are no exports to unpack.
@@ -55,6 +60,6 @@ else
   # Display the available bulk exports.
   echo "Multiple exports found!\n"
   echo "Please provide a partial name to match one of these:"
-  export-ids | sed -e 's:^:  :'
+  find-exports | sed -e 's:^:  :'
   exit 1
 fi
