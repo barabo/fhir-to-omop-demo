@@ -6,7 +6,7 @@
 #
 source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/demo/coherent/generate-etl.sh"
+FILE="demo/coherent/generate-etl.sh"
 
 set -e
 set -o pipefail
