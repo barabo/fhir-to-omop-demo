@@ -4,7 +4,7 @@
 #
 source "$( dirname "${0}" )/../vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/demo/hapi/load.sh"
+FILE="demo/hapi/load.sh"
 
 set -e
 set -o pipefail
@@ -29,7 +29,7 @@ EOM
 
 # Check the arguments.
 (( $# == 0 )) && usage "See ${THIS_DIR}/README.md for configuration options."
-ETL_CONFIG="${1}"
+ETL_CONFIG="${1:-coherent-etl.json}"
 [ -e "${ETL_CONFIG}" ] || usage "File not found: ${ETL_CONFIG}"
 
 
@@ -66,8 +66,9 @@ fi
 export FHIR_BASE="$( etl fhir_base )"
 
 
-# Make sure the server is started already.
-${THIS_DIR}/start.sh >/dev/null
+# Make sure the server is started in 'load mode'.
+${THIS_DIR}/stop.sh >/dev/null
+${THIS_DIR}/start.sh loading >/dev/null
 
 
 ##
@@ -103,7 +104,7 @@ function load() {
   # Load the file.
   curl \
     --no-progress-meter \
-    --fail-with-body \
+    --fail \
     -X POST \
     -H "X-Upsert-Extistence-Check: disabled" \
     -H "Content-Type: application/json" \
@@ -111,11 +112,13 @@ function load() {
     --data-binary "@${filename}" \
     &> "${filename}.log"
 
+  local status=${?}
+  
   # Print a summary of the load results for the loaded file.
   summarize "${filename}"
 
-  # Clean up the .log file.
-  rm -f "${filename}.log"
+  # Remove logs for successful loads.
+  (( status == 0 )) && rm -f "${filename}.log"
 }
 
 
