@@ -44,4 +44,4 @@ the `fhir` directory.
 The FHIR directory contains a single patient bundle file per patient, and
 two separate files which contain all the Providers and Organizations.
 
-See the `README.md` in the `hapi` directory for the next step.
+See the [`README.md`](https://github.com/barabo/fhir-to-omop-demo/blob/main/demo/hapi/README.md) in the `hapi` directory for the next step.
