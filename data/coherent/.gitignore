@@ -1,4 +1,5 @@
 *.zip
+coherent-README.md
 csv/*
 dna/*
 dicom/*
