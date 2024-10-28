@@ -68,7 +68,7 @@ export FHIR_BASE="$( etl fhir_base )"
 
 # Make sure the server is started in 'load mode'.
 ${THIS_DIR}/stop.sh >/dev/null
-${THIS_DIR}/start.sh loading >/dev/null
+${THIS_DIR}/start.sh loading
 
 
 ##
