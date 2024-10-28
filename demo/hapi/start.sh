@@ -15,7 +15,8 @@ H2="${DATA_DIR}/hapi/h2"
 mkdir -p "${H2}"
 
 # Can be disabled for more performant loads.
-ALLOW_DELETES="false"
+[[ "${1:-slow}" == "loading" ]] && SAFE="false" || SAFE="true"
+[[ "${SAFE}" == "false" ]] && MASS_INGESTION="true" && echo "LOAD MODE ENABLED"
 
 # This is where the local folder will appear inside the container.
 MOUNT_TARGET="/persisted"
@@ -50,17 +51,18 @@ function start_server() {
     --name ${NAME} \
     --publish ${FHIR_PORT}:8080 \
     --mount "type=bind,src=${H2},target=${MOUNT_TARGET}" \
-    --env "hapi.fhir.allow_cascading_deletes=${ALLOW_DELETES}" \
-    --env "hapi.fhir.allow_multiple_delete=${ALLOW_DELETES}" \
-    --env "hapi.fhir.bulk_export_enabled=true" \
+    --env "hapi.fhir.allow_cascading_deletes=${SAFE}" \
+    --env "hapi.fhir.allow_multiple_delete=${SAFE}" \
+    --env "hapi.fhir.bulk_export_enabled=${SAFE}" \
     --env "hapi.fhir.bulk_import_enabled=true" \
-    --env "hapi.fhir.delete_expunge_enabled=${ALLOW_DELETES}" \
-    --env "hapi.fhir.enforce_referential_integrity_on_delete=${ALLOW_DELETES}" \
-    --env "hapi.fhir.enforce_referential_integrity_on_write=${ALLOW_DELETES}" \
+    --env "hapi.fhir.mass_ingestion_enabled=${MASS_INGESTION:-false}" \
+    --env "hapi.fhir.delete_expunge_enabled=${SAFE}" \
+    --env "hapi.fhir.enforce_referential_integrity_on_delete=${SAFE}" \
+    --env "hapi.fhir.enforce_referential_integrity_on_write=${SAFE}" \
     --env "spring.datasource.hikari.maximum-pool-size=800" \
     --env "spring.datasource.max-active=8" \
     --env "spring.datasource.url=jdbc:h2:file:${MOUNT_TARGET}/h2" \
-    --env "spring.jpa.properties.hibernate.search.enabled=${ALLOW_DELETES}" \
+    --env "spring.jpa.properties.hibernate.search.enabled=${SAFE}" \
     hapiproject/hapi:latest
 }
 
