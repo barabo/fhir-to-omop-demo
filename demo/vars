@@ -8,7 +8,7 @@ FILE="demo/vars"
 
 # For scripts that use concurrency, this is a default setting for
 # the number of parallel operations.
-CONCURRENCY=8
+CONCURRENCY=$(( $( grep "^processor.:" /proc/cpuinfo | wc -l ) - 1 ))
 
 # Determine the current directory.
 THIS_DIR="$( realpath "$( dirname "${0}" )" )"
