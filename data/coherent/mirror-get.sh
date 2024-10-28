@@ -13,12 +13,17 @@ set -u
 
 MIRROR_ZIP="j0mcu7rax187h6j6gr74vjto8dchbmsp.zip"
 MIRROR_URL="https://mitre.box.com/shared/static/${MIRROR_ZIP}"
-COHERENT="coherent-11-07-2022.zip"
+COHERENT="coherent-11-17-2022.zip"
+SHA256="10d21ab11f4b31e57dd8b90d59dd09c09d83ed0f30882f84ea78f5feccdcefbb"
 
 # Download the file, if not already present.
-if [ ! -e "${MIRROR_ZIP}" ] && [ ! -e "${COHERENT}" ]; then
-  echo "Downloading ${COHERENT} from a published mirror: ${MIRROR_URL}..."
-  wget "${MIRROR_URL}"
+if [ ! -e "${COHERENT}" ]; then
+  if [ ! -e "${MIRROR_ZIP}" ]; then
+    echo "Downloading ${COHERENT} from a published mirror: ${MIRROR_URL}..."
+    wget --no-check-certificate "${MIRROR_URL}"
+    echo "Verifying SHA256 of downloaded file..."
+    shasum -a 256 -c <( echo "${SHA256}  ${MIRROR_ZIP}" )
+  fi
   mv "${MIRROR_ZIP}" "${COHERENT}"
   unzip "${COHERENT}"
 
