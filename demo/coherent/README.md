@@ -42,7 +42,7 @@ source ../vars
 
 # Create the IMPORT_DIR in DATA_DIR.
 cd ${DATA_DIR}
-mkdir coherent
+mkdir -p coherent
 cd coherent
 
 # Unpack the zip file into folders for import.
