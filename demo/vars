@@ -3,7 +3,7 @@
 # and still run the steps.
 #
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="/demo/vars"
+FILE="demo/vars"
 
 # For scripts that use concurrency, this is a default setting for
 # the number of parallel operations.
