@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # This file is sourced by other scripts, so you can make changes to this file
 # and still run the steps.
