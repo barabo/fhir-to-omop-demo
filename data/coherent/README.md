@@ -3,8 +3,7 @@
 [PDF]: https://www.mdpi.com/2079-9292/11/8/1199/pdf?version=1649835714
 
 # Notes
-This is the directory where you should unzip the downloaded MITRE [Coherent]
-data.
+This is the directory where the downloaded MITRE [Coherent] data goes.
 
 The files here are referenced by the `demo/vars` file.
 
@@ -36,27 +35,4 @@ Once loaded into a FHIR server, it will add roughly 2 million resources!
 ---
 ## Demo Instructions
 
-- [ ] Download and unzip the coherent data set using the `./mirror-get.sh` script.
-- [ ] Generate an `etl.json` file using the `../../demo/coherent/generate-etl.sh` script.
-
-### Unpack coherent download
-
-From this directory, you can run these steps to unpack your download.
-
-```bash
-# Set environment variables.
-./mirror-get.sh
-source ../../vars
-[ -d "${IMPORT_DIR}" ] || echo "IMPORT_DIR not created"
-
-# Generate an ETL file for loading FHIR into HAPI.
-../../demo/coherent/generate-etl.sh > "${DEMO_DIR}/hapi/coherent-etl.json"
-```
-
-The zip file contains four directories, but for the next step you will only need
-the `fhir` directory.
-
-The FHIR directory contains a single patient bundle file per patient, and
-two separate files which contain all the Providers and Organizations.
-
-See the `README.md` in the `hapi` directory for the next step.
+Refer to the instructions in the `demo/coherent` folder, not the `data/coherent` folder (this one).
