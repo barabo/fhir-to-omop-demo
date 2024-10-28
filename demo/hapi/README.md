@@ -17,10 +17,10 @@ loaded data locally into `$REPO/data/hapi/h2`.
 Follow these steps to start the server, import coherent data, perform a bulk
 export, and unpack the export archive for the translation step to follow.
 
-- [ ] `./start.sh`
 - [ ] `./load.sh coherent-etl.json`
 - [ ] `./export.sh`
 - [ ] `../../data/bulk-export/unpack.sh`
+- [ ] `./nuke.sh`  # OPTIONAL: If you need to save disk space on your system.
 
 # Operations
 
