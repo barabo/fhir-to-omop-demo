@@ -29,15 +29,9 @@ if [ ! -e "${COHERENT}" ]; then
     shasum -a 256 -c <( echo "${SHA256}  ${MIRROR_ZIP}" )
   fi
   mv "${MIRROR_ZIP}" "${COHERENT}"
-  unzip "${COHERENT}"
-
-  # If the zip file contained an output folder, move the contents here.
-  if [ -d output ]; then
-    mv output/{fhir,dicom,dna,csv} .
-    mv output/README.md ./coherent-README.md
-    rmdir output
-  fi
-
+  unzip "${COHERENT}" 'output/fhir/*.json'
+  mv output/fhir .
+  rmdir output
 else
   echo "Already downloaded!"
 fi

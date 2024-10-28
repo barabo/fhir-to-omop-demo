@@ -4,3 +4,4 @@ csv/*
 dna/*
 dicom/*
 fhir/*
+output/*
