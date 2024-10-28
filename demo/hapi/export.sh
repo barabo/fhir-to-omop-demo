@@ -101,7 +101,7 @@ function get_export_files() {
       | tr -d '\t\r'
 
     last_resource=${resource}
-  done
+  done || true
 }
 
 
@@ -121,8 +121,14 @@ function save_file() {
 function bulk_export() {
   local name="${1}"
   local compress="${2:-no-compress}"
-  local status_url="$( start_export "${name}" )"
-  local job_id="${status_url##*=}"
+  local job_id="${3:-}"
+  local status_url="${FHIR_BASE}/\$export-poll-status?_jobId=${job_id}"
+
+  # Start the export job if a job_id wasn't provided as a parameter.
+  if [[ -z "${job_id}" ]]; then
+    status_url="$( start_export "${name}" )"
+    job_id="${status_url##*=}"
+  fi
 
   # Prepare a folder for the job.
   destination="${EXPORT_DIR}/${name}/${job_id}"
@@ -134,7 +140,7 @@ function bulk_export() {
   echo "Downloading files..."
   export -f save_file
   get_export_files "${status_url}" "${destination}" \
-    | xargs -n2 -P8 bash -c 'save_file "${@}"' _
+    | xargs -n2 -P${CONCURRENCY} bash -c 'save_file "${@}"' _
 
   [[ $compress == no-compress ]] && return
 
@@ -152,6 +158,6 @@ function bulk_export() {
 start=$(( $( date +%s ) ))
 
 # Perform a bulk export, compressing the resulting directory.
-bulk_export "full" compress
+bulk_export "full" compress "${1:-}"
 
 echo "Export completed: in $(( $( date +%s ) - start )) seconds."
