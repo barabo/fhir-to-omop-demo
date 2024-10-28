@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# This file is sourced by other scripts, so you can make changes to this file
-# and still run the steps.
+# This file is sourced by other scripts, so you can customize this file
+# and still run the steps according to your preferences.
 #
 REPO="https://github.com/barabo/fhir-to-omop-demo"
 FILE="demo/vars"
@@ -10,8 +10,10 @@ FILE="demo/vars"
 # the number of parallel operations.
 CONCURRENCY=8
 
-# Can be used by scripts that source this file.
+# Determine the current directory.
 THIS_DIR="$( realpath "$( dirname "${0}" )" )"
+# Override THIS_DIR if vars was sourced from the command-line.
+[[ "${0}" == "${SHELL}" ]] && THIS_DIR="${PWD}"
 REPO_DIR="${THIS_DIR%%/fhir-to-omop-demo*}/fhir-to-omop-demo"
 DEMO_DIR="${REPO_DIR}/demo"
 
@@ -46,9 +48,19 @@ DDL_DIR="${DEMO_DIR}/omopcdm/ddl/5.4/sqlite_extended"
 
 # FHIR_JQ settings
 FHIR_JQ_REPO="$( realpath "${REPO_DIR}/../fhir-jq" )"
-FHIR_JQ="${FHIR_JQ_REPO}/module"
-FHIR_JQ_BIN="${FHIR_JQ_REPO}/fhir-jq/bin"
+if ! [[ -d "${FHIR_JQ_REPO}" ]]; then
+  if cd "${REPO_DIR}/../" &>/dev/null; then
+    echo "Attempting to clone fhir-jq into ${PWD}..."
+    gh repo clone barabo/fhir-jq
+    cd - &>/dev/null
+  fi
+  echo "Please clone barabo/fhir-jq and set FHIR_JQ_REPO in ${REPO_DIR}/demo/vars"
+else
 
-# Export these for fhir-jq, which needs them.
-export FHIR_JQ
-export PATH="${PATH}:${FHIR_JQ_BIN}"
+  FHIR_JQ="${FHIR_JQ_REPO}/module"
+  FHIR_JQ_BIN="${FHIR_JQ_REPO}/fhir-jq/bin"
+
+  # Export these for fhir-jq, which needs them.
+  export FHIR_JQ
+  export PATH="${PATH}:${FHIR_JQ_BIN}"
+fi
