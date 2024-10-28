@@ -37,9 +37,8 @@ Once loaded into a FHIR server, it will add roughly 2 million resources!
 ---
 ## Demo Instructions
 
-- [ ] [Download] the coherent data set, placing the `coherent-11-07-2022.zip` file in your IMPORT_DIR directory.  See the contents of your `/demo/vars` file for the current settings.
-- [ ] Extract the zipped contents with `unzip coherent-11-07-2022.zip`
-- [ ] Generate an `etl.json` file using the `generate-etl.sh` script.
+- [ ] Download and unzip the coherent data set using the `./mirror-get.sh` script.
+- [ ] Generate an `etl.json` file using the `../../demo/coherent/generate-etl.sh` script.
 
 ### Unpack coherent download
 
@@ -47,20 +46,12 @@ From this directory, you can run these steps to unpack your download.
 
 ```bash
 # Set environment variables.
-source ../vars
-
-# Create the IMPORT_DIR in DATA_DIR.
-cd ${DATA_DIR}
-mkdir coherent
-cd coherent
-
-# Unpack the zip file into folders for import.
-cp ~/Downloads/coherent-11-07-2022.zip .
-unzip coherent-11-07-2022.zip
+./mirror-get.sh
+source ../../vars
 [ -d "${IMPORT_DIR}" ] || echo "IMPORT_DIR not created"
 
 # Generate an ETL file for loading FHIR into HAPI.
-./generate-etl.sh > "${DEMO_DIR}/hapi/coherent-etl.json"
+../../demo/coherent/generate-etl.sh > "${DEMO_DIR}/hapi/coherent-etl.json"
 ```
 
 The zip file contains four directories, but for the next step you will only need
