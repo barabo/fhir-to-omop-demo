@@ -2,14 +2,18 @@
 #
 # Get the coherent data set from a published mirror if not already present.
 #
-cd "$( dirname "${0}" )"
-source "../../demo/vars"
 REPO="https://github.com/barabo/fhir-to-omop-demo"
-FILE="data/coherent/mirror-get.sh"
+FILE="demo/coherent/mirror-get.sh"
+
+pushd .
+cd "$( dirname "${0}" )"
+source "../../demo/vars" || popd &> /dev/null
 
 set -e
 set -o pipefail
 set -u
+
+cd "${DATA_DIR}/coherent/"
 
 MIRROR_ZIP="j0mcu7rax187h6j6gr74vjto8dchbmsp.zip"
 MIRROR_URL="https://mitre.box.com/shared/static/${MIRROR_ZIP}"
@@ -38,4 +42,8 @@ else
   echo "Already downloaded!"
 fi
 
-cd - &>/dev/null
+# Generate some lightweight ETL for loading the coherent data into HAPI.
+"${DEMO_DIR}/coherent/generate-etl.sh" > "${DEMO_DIR}/hapi/coherent-etl.json"
+
+# Return to the previous CWD.
+popd &>/dev/null
