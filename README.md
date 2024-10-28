@@ -41,7 +41,7 @@ You will:
 
 ## Get Started
 
-Begin with the README.md in the `fhir-to-omop-demo/demo` directory!
+Begin with the [README.md](https://github.com/barabo/fhir-to-omop-demo/blob/main/demo/README.md) in the `fhir-to-omop-demo/demo` directory!
 
 ## Citations
 
