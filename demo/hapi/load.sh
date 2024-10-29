@@ -97,8 +97,8 @@ function load() {
   local filename="$( basename ${1} )"
   filename="${file_folder}/${filename//\'/_}"
   if [[ ${1} != ${filename} ]]; then
-    echo "Renaming: ${1} to remove single quotes in filename..."
-    mv -v "${1}" "${filename}"
+    mv -v "${1}" "${filename}" 2>&1 \
+      | sed -e 's: ->: to remove quotes in filename\n     ->:'
   fi
 
   # Load the file.
