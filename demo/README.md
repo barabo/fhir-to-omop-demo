@@ -113,8 +113,8 @@ $
 
 The instructions are outlined in the following READMEs
 
-- [ ] `coherent/README.md`
-- [ ] `hapi/README.md`
+- [ ] [`coherent/README.md`](https://github.com/barabo/fhir-to-omop-demo/blob/main/demo/coherent/README.md)
+- [ ] [`hapi/README.md`](https://github.com/barabo/fhir-to-omop-demo/blob/main/demo/hapi/README.md)
 
 Once this is complete, you can stop the hapi server.  This should cause it to
 shrink its H2 database (which is saved in `data/hapi/h2`) and free up some disk
