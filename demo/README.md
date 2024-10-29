@@ -39,7 +39,7 @@ You should have (or install)...
 - [ ] `bash`
 - [ ] `jq`
 - [ ] `sqlite`
-- [ ] `zstd` (optional, but recommended)
+- [ ] `zstd`
 
 You will also need to download a few pieces of data.
 - [ ] the MITRE [coherent] data set
