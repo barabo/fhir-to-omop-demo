@@ -1,3 +1,28 @@
+# Instructions
+
+<details><summary>Click to see a shortcut.</summary>
+
+---
+
+To make it easier to get going with this demo, I've provided a direct download to
+an example vocabulary extract.  To download and install your own terminology
+selections from Athena, please see the rest of the README below.
+
+Otherwise, just do this:
+```bash
+source ../vars && cd "${TERMINOLOGY_DIR}" 2>/dev/null
+pip -q --no-input install gdown
+gdown --no-check-certificate 1V8lTWim276CyUcZHOGxApATTTstRa7Ys
+SHA=cdff0fdc91c238f1d1a739e59c137ebc0658f80d0d97d45d9b9c04f1b19d0fb2
+shasum -a 256 -c <( echo "${SHA}  vocabulary.zst" )
+unzstd --stdout vocabulary.zst | tar -x
+cd - 2>/dev/null
+
+# Build the empty OMOP CDM database
+./load.sh
+```
+</details>
+
 # Notes
 
 This directory is where I load terminology data into an empty OMOPCDM
