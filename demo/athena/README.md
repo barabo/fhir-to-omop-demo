@@ -5,16 +5,26 @@
 ---
 
 To make it easier to get going with this demo, I've provided a direct download to
-an example vocabulary extract.  To download and install your own terminology
-selections from Athena, please see the rest of the README below.
+an example vocabulary extract.  You shouldn't use this extract long-term, but it
+will allow you to started without having to wait for an Athena download.
+
+To download and install your own terminology selections from Athena, please see
+the rest of the README that follows.
 
 Otherwise, just do this:
 ```bash
+# Change directory to the data directory.
 source ../vars && cd "${TERMINOLOGY_DIR}" 2>/dev/null
+
+# Install a tool to download from a Google Drive folder.
 pip -q --no-input install gdown
-gdown --no-check-certificate 1V8lTWim276CyUcZHOGxApATTTstRa7Ys
-SHA=cdff0fdc91c238f1d1a739e59c137ebc0658f80d0d97d45d9b9c04f1b19d0fb2
+gdown --no-check-certificate 1fTSBBFPEel_mNLsMzW-I1QV3qWh-H3Gv
+
+# Verify the download contents against a SHA256.
+SHA=230d2f8b05a96f2a600d0cf0b5313894a156b78fca7145d963bcdc27086dee2c
 shasum -a 256 -c <( echo "${SHA}  vocabulary.zst" )
+
+# Unpack and return to the demo/athena dir.
 unzstd --stdout vocabulary.zst | tar -x
 cd - 2>/dev/null
 
